@@ -19,6 +19,7 @@ const isDataEntry = require('./middleware/isDataEntry');
 const { query } = require('./utils/db')
 const jwt = require('jsonwebtoken');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 const app = express();
 
 app.engine('ejs', ejsMate)
@@ -37,6 +38,7 @@ const sessionConfig = {
 }
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')))

@@ -14,8 +14,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-auto">
-        <% if(currentUser) {%> <% if (currentUser === 'doctor'){ %>
+        <% if(currentUser) {%> <% if (currentUser.role === 'Doctor'){ %>
         <a class="nav-link" href="/doctor/dashboard">Dashboard</a>
+        <% } %> <% if (currentUser.role === 'FrontDesk'){ %>
+        <a class="nav-link" href="/frontdesk/dashboard">Dashboard</a>
+        <% } %> <% if (currentUser.role === 'Admin'){ %>
+        <a class="nav-link" href="/admin">Dashboard</a>
+        <a href="/admin/register" class="nav-link">Register</a>
+        <% } %> <% if (currentUser.role === 'DataEntry'){ %>
+        <a class="nav-link" href="/dataentry/dashboard">Dashboard</a>
         <% } %>
         <a class="nav-link" href="/logout">Logout</a>
         <% } %>

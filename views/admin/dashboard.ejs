@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container row">
+  <h1 class="text-center">All Registered Users :</h1>
+  <% for(let user of users) { %>
+  <div class="card col-3 mx-2 my-2">
+    <div class="card-body">
+      <h5 class="card-title"><strong>UserID: </strong><%= user.userID %></h5>
+      <p class="card-text"><strong>Email: </strong> <%= user.email %></p>
+      <p class="card-text"><strong>Role: </strong><%= user.role %></p>
+      <% if(currentUser.userID !== user.userID) { %>
+      <form action="/admin/user?_method=DELETE" method="post">
+        <input type="hidden" name="userID" value="<%= user.userID %>" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+</div>
