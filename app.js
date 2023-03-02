@@ -5,7 +5,6 @@ if (process.env.NODE_ENV !== "production") {
 const express = require('express');
 const path = require('path');
 const ejsMate = require('ejs-mate');
-const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const flash = require('connect-flash');
@@ -23,6 +22,7 @@ const isAdmin = require('./middleware/isAdmin');
 const isFrontdesk = require('./middleware/isFrontdesk');
 const isDataEntry = require('./middleware/isDataEntry');
 
+const ExpressError = require('./utils/ExpressError');
 const { query } = require('./utils/db')
 const catchAsync = require('./utils/catchAsync');
 
