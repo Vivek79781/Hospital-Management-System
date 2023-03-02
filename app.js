@@ -7,20 +7,24 @@ const path = require('path');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
+const flash = require('connect-flash');
+const methodOverride = require('method-override');
+const app = express();
+
 const doctorRoutes = require('./routes/doctor');
 const dataEntryRoutes = require('./routes/dataEntry');
 const frontdeskRoutes = require('./routes/frontdesk');
 const adminRoutes = require('./routes/admin');
+
 const auth = require('./middleware/auth');
 const isDoctor = require('./middleware/isDoctor');
 const isAdmin = require('./middleware/isAdmin');
 const isFrontdesk = require('./middleware/isFrontdesk');
 const isDataEntry = require('./middleware/isDataEntry');
+
 const { query } = require('./utils/db')
-const jwt = require('jsonwebtoken');
-const flash = require('connect-flash');
-const methodOverride = require('method-override');
-const app = express();
+const catchAsync = require('./utils/catchAsync');
 
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
@@ -48,7 +52,7 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 })
-app.get('/', async(req, res) => {
+app.get('/', catchAsync(async(req, res) => {
     const token = req.session.token;
     if(!token) {
         res.render('home');
@@ -67,9 +71,9 @@ app.get('/', async(req, res) => {
             res.redirect('/admin');
         }
     }
-});
+}));
 
-app.post('/login', async(req, res) => {
+app.post('/login', catchAsync(async(req, res) => {
     const { password, email } = req.body;
     const user = await query(`select * from User where email='${email}' AND pass='${password}'`)
     const payload = {
@@ -90,7 +94,7 @@ app.post('/login', async(req, res) => {
             }
         }
         )    
-});
+}));
 app.get('/createAdmin', (req, res, next) => {
     if(process.env.NODE_ENV !== 'production'){
         res.render('createAdmin');
