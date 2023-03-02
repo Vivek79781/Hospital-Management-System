@@ -29,8 +29,10 @@ router.post('/register', async(req, res) => {
     console.log(users);
     const id = users[0]['max(userID)'] + 1;
     await query(`insert into User (userID, email, pass, role) values (${id}, '${email}', '${password}', '${category}')`);
-    if(category === 'Doctor') {
-        await query(`insert into Doctor (doctorID)`)
+    if(category === 'doctor') {
+        // console.log('Doctor');
+        const { Name, Department, DateOfJoining, Position, Gender} = req.body;
+        await query(`insert into Doctor (doctorID, Name, Department, Date_of_joining, Position, Gender) values(${id}, '${Name}', '${Department}', '${DateOfJoining}', '${Position}', '${Gender}')`)
     }
     res.redirect('/admin');
 });
