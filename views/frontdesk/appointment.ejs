@@ -1,0 +1,48 @@
+<% layout('layouts/boilerplate')%>
+<div class="container">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h1><span class="fa fa-sign-in"></span> Appointment</h1>
+    <form action="/admin/register" method="post" class="validated-form">
+        <div class="form-group">
+            <label>AppointmentID</label>
+            <input type="number" class="form-control" name="AppointmentID" required />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="form-group">
+            <label>PatientID</label>
+            <input type="number" class="form-control" name="PatientID" required />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="form-group">
+            <label>doctorID</label>
+            <input type="number" class="form-control" name="doctorID" required />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="form-group">
+            <label>Priority</label>
+            <input type="number" class="form-control" name="Priority" required />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="form-control" name="Date" required />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="form-group">
+            <label>Reason</label>
+            <input type="text" class="form-control" name="Reason" required />
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+          <div class="form-group">
+            <label for="Status">Status</label>
+            <select name="Status" id="Status" class="form-control">
+              <option value="Pending">Pending</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+      <button type="submit" class="btn btn-warning btn-lg">Register</button>
+    </form>
+    <hr />
+  </div>
+</div>
