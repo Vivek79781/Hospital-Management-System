@@ -1,38 +1,38 @@
-<% //layout('layouts/boilerplate')%>
-<!-- <div class="container"> -->
-<!-- <div class="col-sm-6 col-sm-offset-3"> -->
-<!-- <h1><span class="fa fa-sign-in"></span> Doctor Registration</h1> -->
-<!-- <form action="/admin/register" method="post" class="validated-form"> -->
-<div class="form-group">
-  <label>Name</label>
-  <input type="text" class="form-control" name="Name" required />
-  <div class="valid-feedback">Looks good!</div>
+<% layout('layouts/boilerplate')%>
+<div class="container">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h1><span class="fa fa-sign-in"></span> Doctor Registration</h1>
+    <form action="/admin/register" method="post" class="validated-form">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="Name" required />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="form-group">
+        <label>Department</label>
+        <input type="text" class="form-control" name="Department" required />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="form-group">
+        <label>Date of birth</label>
+        <input type="date" class="form-control" name="DateOfBirth" required />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="form-group">
+        <label>Position</label>
+        <input type="text" class="form-control" name="Position" required />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="form-group">
+        <label for="Gender">Category</label>
+        <select name="Gender" id="Gender" class="form-control">
+          <option value="male">Male</option>
+          <option value="Female">Female</option>
+          <option value="PreferNotToSay">Prefer Not To Say</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-warning btn-lg">Register</button>
+    </form>
+    <hr />
+  </div>
 </div>
-<div class="form-group">
-  <label>Department</label>
-  <input type="text" class="form-control" name="Department" required />
-  <div class="valid-feedback">Looks good!</div>
-</div>
-<div class="form-group">
-  <label>Date of birth</label>
-  <input type="date" class="form-control" name="DateOfBirth" required />
-  <div class="valid-feedback">Looks good!</div>
-</div>
-<div class="form-group">
-  <label>Position</label>
-  <input type="text" class="form-control" name="Position" required />
-  <div class="valid-feedback">Looks good!</div>
-</div>
-<div class="form-group">
-  <label for="Gender">Category</label>
-  <select name="Gender" id="Gender" class="form-control">
-    <option value="male">Male</option>
-    <option value="Female">Female</option>
-    <option value="PreferNotToSay">Prefer Not To Say</option>
-  </select>
-</div>
-<!-- <button type="submit" class="btn btn-warning btn-lg">Register</button> -->
-<!-- </form> -->
-<!-- <hr /> -->
-<!-- </div> -->
-<!-- </div> -->
