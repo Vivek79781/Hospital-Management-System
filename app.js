@@ -104,6 +104,28 @@ app.get('/createAdmin', (req, res, next) => {
         next(err);
     }
 })
+
+app.post('/createAdmin', async(req,res,next) => {
+    if(process.env.NODE_ENV !== 'production'){
+        const { password, email } = req.body;
+        const users = await query(`select max(userID) as max from User`)
+        const max = users[0].max;
+        
+        query(`insert into User values(${max+1},'${email}','${password}','Admin')`)
+        .then(() => {
+            req.flash('success', 'Admin account created');
+            res.redirect('/');
+        })
+        .catch(err => {
+            req.flash('error', 'Admin account creation failed');
+            res.redirect('/createAdmin');
+        })
+    } else {
+        const statusCode = 401
+        const err = new ExpressError('You are not authorized to view this page', statusCode)
+        next(err);
+    }
+})
 app.get('/contact', (req, res) => {
     res.render('contact');
 })

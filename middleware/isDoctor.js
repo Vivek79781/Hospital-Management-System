@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-    if (req.user === 'doctor') {
+    if (req.user === 'Doctor') {
         return next();
     } else {
         const statusCode = 401
