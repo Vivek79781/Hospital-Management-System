@@ -27,3 +27,53 @@
     <hr />
   </div>
 </div>
+
+<script>
+  const category = document.getElementById('category');
+  category.addEventListener('change', () => {
+    if (category.value === 'doctor') {
+      const form = document.querySelector('.validated-form');
+      const doctor = document.querySelector('.doctor');
+      if (!doctor) {
+        const newFormGroup = document.createElement('div');
+        newFormGroup.classList.add('doctor');
+        newFormGroup.innerHTML = `
+        <div class="form-group">
+  <label>Name</label>
+  <input type="text" class="form-control" name="Name" required />
+  <div class="valid-feedback">Looks good!</div>
+</div>
+<div class="form-group">
+  <label>Department</label>
+  <input type="text" class="form-control" name="Department" required />
+  <div class="valid-feedback">Looks good!</div>
+</div>
+<div class="form-group">
+  <label>Date of birth</label>
+  <input type="date" class="form-control" name="DateOfBirth" required />
+  <div class="valid-feedback">Looks good!</div>
+</div>
+<div class="form-group">
+  <label>Position</label>
+  <input type="text" class="form-control" name="Position" required />
+  <div class="valid-feedback">Looks good!</div>
+</div>
+<div class="form-group">
+  <label for="Gender">Gender</label>
+  <select name="Gender" id="Gender" class="form-control">
+    <option value="male">Male</option>
+    <option value="Female">Female</option>
+    <option value="PreferNotToSay">Prefer Not To Say</option>
+  </select>
+</div>
+      `;
+        form.insertBefore(newFormGroup, form.lastElementChild);
+      }
+    } else {
+      const doctor = document.querySelector('.doctor');
+      if (doctor) {
+        doctor.remove();
+      }
+    }
+  });
+</script>
