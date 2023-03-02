@@ -29,6 +29,9 @@ router.post('/register', async(req, res) => {
     console.log(users);
     const id = users[0]['max(userID)'] + 1;
     await query(`insert into User (userID, email, pass, role) values (${id}, '${email}', '${password}', '${category}')`);
+    if(category === 'Doctor') {
+        await query(`insert into Doctor (doctorID)`)
+    }
     res.redirect('/admin');
 });
 
