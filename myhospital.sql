@@ -1,11 +1,11 @@
 -- DELETE ALL TABLES
 DROP TABLE Stay;
-DROP TABLE Treatment;
-DROP TABLE Appointment;
-DROP TABLE Patient;
-DROP TABLE Doctor;
-DROP TABLE Test;
 DROP TABLE Room;
+DROP TABLE Treatment;
+DROP TABLE Test;
+DROP TABLE Appointment;
+DROP TABLE Doctor;
+DROP TABLE Patient;
 DROP TABLE User;
 
 
@@ -86,7 +86,8 @@ CREATE TABLE Treatment(
 CREATE TABLE Room(
     roomNumber INT NOT NULL,
     roomType ENUM('General', 'Ventilator', 'ICU') NOT NULL,
-    Status ENUM('Available', 'Occupied') NOT NULL,
+    maxCapacity INT NOT NULL,
+    currentOccupancy INT NOT NULL,
     PRIMARY KEY (roomNumber)
 );
 
@@ -130,6 +131,9 @@ SELECT * FROM Doctor;
 
 INSERT INTO User (userID, email, role, pass)
 VALUES (1, 'doctor1@example.com', 'Doctor', 'password123');
+
+INSERT INTO User (userID, email, role, pass)
+VALUES (5, 'fd1@gmail.com', 'FrontDesk', 'fd1');
 
 INSERT INTO Doctor (doctorID, Name, Department, Date_of_joining, Position, Gender)
 VALUES (1, 'Dr. Smith', 'Cardiology', '2022-01-01 00:00:00', 'Head of Department', 'Male');
@@ -187,13 +191,13 @@ VALUES (5, 'Metropolis Healthcare', 'Hemoglobin A1c', '2022-03-02 13:00:00', 'Pe
 
 
 
-INSERT INTO Room (roomNumber, roomType, Status)
-VALUES (101, 'General', 'Available'),
-       (102, 'General', 'Available'),
-       (103, 'Ventilator', 'Occupied'),
-       (104, 'ICU', 'Available'),
-       (105, 'General', 'Occupied'),
-       (106, 'Ventilator', 'Available');
+INSERT INTO Room (roomNumber, roomType, maxCapacity, currentOccupancy)
+VALUES (101, 'General', 5, 3),
+       (102, 'General', 7, 0),
+       (103, 'Ventilator', 2, 1),
+       (104, 'ICU', 3, 2),
+       (105, 'General', 9, 4),
+       (106, 'Ventilator', 2, 0);
 
 
 INSERT INTO Stay (patientID, roomNumber, AdmitDate, DischargeDate) VALUES
