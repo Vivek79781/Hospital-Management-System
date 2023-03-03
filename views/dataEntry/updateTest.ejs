@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate')%>
+<h1 class="text-center">Update Test</h1>
+<% for(let test of tests) { %>
+<div class="card w-25">
+  <div class="card-body">
+    <p class="card-text">
+      <strong>Test :</strong><%= test.testName %> <strong> By </strong> <%=
+      test.testCenter %>
+    </p>
+
+    <p class="card-text">
+      <strong>Test Date: </strong> <%=
+      test.testDate.toISOString().slice(0,19).replace('T', ' ') %>
+    </p>
+    <p class="card-text">
+      <strong>Test Status: </strong
+      ><span class="badge badge-warning"><%= test.testStatus %></span>
+    </p>
+    <form
+      action="/dataentry/patient/<%= id %>/updateTest/<%= test.testID %>?_method=PUT"
+      method="post"
+    >
+      <div class="form-group mb-0">
+        <label for="testResult">
+          <strong>Test Result:</strong>
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="testResult"
+          name="testResult"
+          value=""
+        />
+        <button class="btn btn-primary mt-2">UPDATE</button>
+      </div>
+    </form>
+  </div>
+</div>
+<% } %>
