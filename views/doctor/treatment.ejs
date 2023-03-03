@@ -1,0 +1,29 @@
+<% layout('layouts/boilerplate')%>
+  <div class="container">
+    <div class="col-12">
+      <% for(let pt of patient) { %>
+      <h1><span class="fa fa-sign-in"></span> Treatment History of <%= pt.Name %></h1>
+      <% } %>
+        <!-- Write table -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Treatment Date</th>
+              <th scope="col">Treatment Description</th>
+              <th scope="col">Status</th>
+              <th scope="col">Doctor </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let treatment of treatments) { %>
+            <tr>
+              <td><%= treatment.treatmentDate.toISOString().slice(0, 19).replace('T', ' ') %></td>
+              <td><%= treatment.Description %></td>
+              <td><%= treatment.treatmentStatus %></td>
+              <td><%= treatment.Dname %></td>
+            </tr>
+            <% } %>
+          </tbody>
+      <hr />
+    </div>
+  </div>

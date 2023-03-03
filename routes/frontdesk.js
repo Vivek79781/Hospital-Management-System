@@ -53,7 +53,7 @@ router.get('/patient/:id/admit', async(req, res) => {
 router.get('/patient/:id/treatment', async(req, res) => {
     const { id } = req.params;
     const doctors = await query(`select * from Doctor where doctorID in (select userID from User where role = 'Doctor')`)
-    res.render('frontdesk/treatment',{id,doctors});
+    res.render('frontdesk/Treatment',{id,doctors});
 });
 
 router.post('/patient/:id/treatment', async(req, res) => {
@@ -76,7 +76,7 @@ router.post('/patient/:id/treatment', async(req, res) => {
 
 router.get('/patient/:id/test', async(req, res) => {
     const { id } = req.params;
-    res.render('frontdesk/test',{id});
+    res.render('frontdesk/Test',{id});
 });
 
 router.post('/patient/:id/test', async(req, res) => {
