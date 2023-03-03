@@ -75,6 +75,15 @@ router.get('/patient/:id/test', async(req, res) => {
     res.render('frontdesk/test',{id});
 });
 
+router.post('/patient/:id/test', async(req, res) => {
+    const { id } = req.params;
+    console.log(req.body);
+    const { Testname, TestDate, TestTime, Testcenter } = req.body;
+    DateTest = TestDate + ' ' + TestTime
+    await query(`INSERT INTO Test (patientID, TestName, TestDate, TestCenter, TestStatus) VALUES (${id}, '${Testname}', '${DateTest}', '${Testcenter}', 'Pending')`)
+    req.flash('success', 'Test has been scheduled');
+    res.redirect('/frontdesk');
+});
 
 router.get('/patient/:id/appointment', async(req, res) => {
     const { id } = req.params;
