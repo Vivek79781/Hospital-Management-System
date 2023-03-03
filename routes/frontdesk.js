@@ -5,7 +5,7 @@ const { query } = require('../utils/db');
 router.get('/', async(req, res) => {
     const patients = await query('select * from Patient')
     const stays = await query('select * from Stay where DischargeDate is null')
-    const rooms = await query(`select * from Room where status = 'Available'`)
+    const rooms = await query(`select * from Room where currentOccupancy < maxCapacity`)
     let available = true
     if(rooms.length === 0) {
         available = false
@@ -31,18 +31,22 @@ router.get('/patient/:id/discharge', async(req, res) => {
     const stays = await query(`select * from Stay where PatientID = ${id} and DischargeDate is null`)
     const stay = stays[0]
     const room = await query(`select * from Room where RoomNumber = ${stay.roomNumber}`)
+    let occupancy = room[0].currentOccupancy;
+    occupancy = occupancy - 1;
     await query(`UPDATE Stay SET DischargeDate = '${new Date().toISOString().slice(0, 19).replace('T', ' ')}' WHERE PatientID = ${id} and DischargeDate is null`)
-    await query(`UPDATE Room SET status = 'Available' WHERE RoomNumber = ${stay.roomNumber}`)
+    await query(`UPDATE Room SET currentOccupancy = ${occupancy} WHERE RoomNumber = ${stay.roomNumber}`)
     res.redirect('/frontdesk');
 });
 
 router.get('/patient/:id/admit', async(req, res) => {
     const { id } = req.params;
     console.log(id);
-    const rooms = await query(`select * from Room where status = 'Available'`)
+    const rooms = await query(`select * from Room where currentOccupancy < maxCapacity`)
     console.log(rooms);
     await query(`INSERT INTO Stay (patientID, roomNumber, AdmitDate) VALUES (${id}, ${rooms[0].roomNumber}, '${new Date().toISOString().slice(0, 19).replace('T', ' ')}')`)
-    await query(`UPDATE Room SET status = 'Occupied' WHERE roomNumber = ${rooms[0].roomNumber}`)
+    let occupancy = rooms[0].currentOccupancy;
+    occupancy = occupancy + 1;
+    await query(`UPDATE Room SET currentOccupancy = ${occupancy} WHERE RoomNumber = ${rooms[0].roomNumber}`)
     res.redirect('/frontdesk');
 });
 
