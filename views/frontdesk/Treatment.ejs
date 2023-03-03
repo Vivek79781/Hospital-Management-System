@@ -1,43 +1,75 @@
 <% layout('layouts/boilerplate')%>
 <div class="container">
   <div class="col-sm-6 col-sm-offset-3">
-    <h1><span class="fa fa-sign-in"></span> Treatment</h1>
-    <form action="/admin/register" method="post" class="validated-form">
-        <div class="form-group">
-            <label>TreatmentID</label>
-            <input type="number" class="form-control" name="TreatmentID" required />
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-          <div class="form-group">
-            <label>PatientID</label>
-            <input type="number" class="form-control" name="PatientID" required />
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-          <div class="form-group">
-            <label>DoctorID</label>
-            <input type="number" class="form-control" name="DoctorID" required />
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-          <div class="form-group">
-            <label>Description</label>
-            <input type="text" class="form-control" name="Description" required />
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-          <div class="form-group">
-            <label>TreatmentDate</label>
-            <input type="date" class="form-control" name="TreatmentDate" required />
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-          <div class="form-group">
-            <label for="TreatmentStatus">Treatment Status</label>
-            <select name="TreatmentStatus" id="TreatmentStatus" class="form-control">
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
-            </select>
-          </div>
+    <h1><span class="fa fa-sign-in"></span> Schedule Treatment</h1>
+    <form
+      action="/frontdesk/patient/<%= id %>/treatment"
+      method="post"
+      class="validated-form"
+    >
+      <div class="form-group">
+        <label for="doctor">Doctor</label>
+        <select name="doctorID" id="doctor" class="form-control">
+          <% for(let doctor of doctors) { %>
+          <option value="<%= doctor.doctorID %>">
+            <%= doctor.Name %> - <%= doctor.Department %>
+          </option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <!-- <input type="text" class="form-control" name="Description" required /> -->
+        <textarea
+          class="form-control"
+          name="Description"
+          id="Description"
+          cols="10"
+          rows="1"
+          required
+        ></textarea>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="form-group">
+        <label for="TreatmentDate">Treatment Date</label>
+        <div class="col-3" style="display: inline-block">
+          <input
+            type="date"
+            class="form-control treatment-date"
+            name="TreatmentDate"
+            id="TreatmentDate"
+            required
+          />
+        </div>
+        <div class="col-3" style="display: inline-block">
+          <input
+            type="time"
+            class="form-control treatment-time"
+            name="TreatmentTime"
+          />
+        </div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
       <button type="submit" class="btn btn-warning btn-lg">Register</button>
     </form>
     <hr />
   </div>
 </div>
+<script>
+  const treatmentDate = document.querySelector('.treatment-date');
+  treatmentDate.addEventListener('change', (e) => {
+    const date = new Date(e.target.value);
+    const today = new Date();
+    if (date < today) {
+      alert('Please select a date in the future');
+      e.target.value = '';
+    }
+  });
+  const treatmentTime = document.querySelector('.treatment-time');
+  treatmentTime.addEventListener('change', (e) => {
+    const time = e.target.value;
+    const hours = time.split(':')[0];
+    const minutes = '00';
+    e.target.value = `${hours}:${minutes}`;
+  });
+</script>
