@@ -1,0 +1,66 @@
+<% layout('layouts/boilerplate')%>
+<h1 class="text-center">All Registered Patients:</h1>
+<div class="container-fluid row px-0">
+  <% for(let patient of patients) { %>
+  <% var index = stays.findIndex(stay => stay.patientID == patient.patientID) %>
+  <div class="card col-4 mx-2 my-2" style="width: 27.5rem">
+    <div class="card-body">
+      <h5 class="card-title">
+        <strong>PatientID: </strong><%= patient.patientID %>
+      </h5>
+      <p class="card-text"><strong>Name: </strong> <%= patient.Name %></p>
+      <Address
+        ><p class="card-text">
+          <strong>Address: </strong><%= patient.Address%>
+        </p></Address
+      >
+      <p class="card-text"><strong>Phone: </strong> <%= patient.Phone %></p>
+      <p class="card-text"><strong>Email: </strong> <%= patient.email %></p>
+      <p class="card-text"><strong>DOB: </strong> <%= patient.DOB %></p>
+      <p class="card-text">
+        <strong>Registration date: </strong><%= patient.Registration_Date%>
+      </p>
+      <% if(index != -1){ %>
+        <p class="card-text">
+          <strong>Admission date: </strong><%= stays[index].AdmitDate%>
+        </p>
+        <p class="card-text">
+            <strong>
+                Room number: </strong><%= stays[index].roomNumber%>
+            </strong>
+        </p>
+      <% } %>
+    </div>
+    <a
+      href="/frontdesk/patient/<%=patient.patientID%>/bookappointment"
+      class="btn btn-primary my-1"
+      >Book Appointment</a
+    >
+    <% if(index == -1) { %>
+        <% if(available) {%>
+    <a
+      href="/frontdesk/patient/<%=patient.patientID%>/admit"
+      class="btn btn-primary my-1"
+      >Admit</a
+    >
+    <% } %>
+    <% } else { %>
+    <a
+      href="/frontdesk/patient/<%=patient.patientID%>/discharge"
+      class="btn btn-primary my-1"
+      >Discharge</a
+    >
+    <% } %>
+    <a
+      href="/frontdesk/patient/<%=patient.patientID%>/test"
+      class="btn btn-primary my-1"
+      >Schedule Test</a
+    >
+    <a
+        href="/frontdesk/patient/<%=patient.patientID%>/treatment"
+        class="btn btn-primary my-1"
+        >Schedule Treatment
+    </a>
+  </div>
+  <% } %>
+</div>

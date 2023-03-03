@@ -31,7 +31,8 @@ router.post('/register', async(req, res) => {
     await query(`insert into User (userID, email, pass, role) values (${id}, '${email}', '${password}', '${category}')`);
     if(category === 'doctor') {
         // console.log('Doctor');
-        const { Name, Department, DateOfJoining, Position, Gender} = req.body;
+        const { Name, Department, Position, Gender} = req.body;
+        const DateOfJoining = new Date().toISOString().slice(0, 19).replace('T', ' ');
         await query(`insert into Doctor (doctorID, Name, Department, Date_of_joining, Position, Gender) values(${id}, '${Name}', '${Department}', '${DateOfJoining}', '${Position}', '${Gender}')`)
     }
     res.redirect('/admin');
