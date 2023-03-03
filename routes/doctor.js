@@ -6,7 +6,7 @@ router.get('/', async(req, res) => {
     // req.user.userID = req.user.userID.toString()
     // console.log(req.user.Name);
     const id = req.user.userID;
-    const patients = await query('select * from Patient')
+    const patients = await query('select * from Patient, Treatment where Treatment.doctorID = ? and Treatment.patientID = Patient.patientID', [id])
     for (let i = 0; i < patients.length; i++) {
         console.log(patients[i].Name);
     }

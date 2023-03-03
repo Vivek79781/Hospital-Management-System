@@ -216,3 +216,5 @@ INSERT INTO Stay (patientID, roomNumber, AdmitDate, DischargeDate) VALUES
 (4, 104, '2022-02-08 13:00:00', NULL),
 (5, 105, '2022-02-10 16:00:00', NULL);
 
+INSERT INTO Treatment (patientID, doctorID, treatmentDate, treatmentStatus, Description)
+VALUES (2, 1, '2022-02-15 11:00:00', 'Pending', 'Physical therapy for back pain');
