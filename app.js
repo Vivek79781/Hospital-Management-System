@@ -76,6 +76,10 @@ app.get('/', catchAsync(async(req, res) => {
 app.post('/login', catchAsync(async(req, res) => {
     const { password, email } = req.body;
     const user = await query(`select * from User where email='${email}' AND pass='${password}'`)
+    if(user.length === 0) {
+        req.flash('error', 'Invalid email or password');
+        res.redirect('/');
+    }
     const payload = {
         user: {
             id: user[0].userID

@@ -1,5 +1,6 @@
+const ExpressError = require('../utils/ExpressError');
 module.exports = (req, res, next) => {
-    if (req.user === 'Doctor') {
+    if (req.user.role === 'Doctor') {
         return next();
     } else {
         const statusCode = 401
