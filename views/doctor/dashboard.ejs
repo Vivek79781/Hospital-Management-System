@@ -33,16 +33,14 @@
         <%= patient.DOB.toISOString().slice(0, 19).replace('T', ' ' ) %>
       </p>
       <p class="card-text">
-        <strong>Registration date: </strong>
-        <%= patient.Registration_Date.toISOString().slice(0, 19).replace('T', '
-        ' )%>
+        <strong>Registration date: </strong><%=
+        patient.Registration_Date.toISOString().slice(0, 19).replace('T',' ')%>
       </p>
-      <% var stayIndex=stays.findIndex(stay=> stay.patientID ==
+      <% var stayIndex=stays.findIndex(stay => stay.patientID ==
       patient.patientID) %> <% if(stayIndex !=-1){ %>
       <p class="card-text">
-        <strong>Admission date: </strong>
-        <%=stays[stayIndex].AdmitDate. toISOString().slice(0, 19).replace('T', '
-        ' )%>
+        <strong>Admission date: </strong><%=stays[stayIndex].AdmitDate.
+        toISOString().slice(0, 19).replace('T', ' ' )%>
       </p>
       <p class="card-text">
         <strong> Room number: </strong>
