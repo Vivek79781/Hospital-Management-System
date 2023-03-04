@@ -105,7 +105,6 @@ CREATE TABLE Stay(
 
 
 
-insert into User values(1,'mha@gmail.com','Admin','JayShreeRam');
 
 -- Doctor Dashboard
 -- List of all patients treated by the doctor
@@ -129,11 +128,21 @@ WHERE PatientID = 1;
 SELECT * FROM User;
 SELECT * FROM Doctor;
 
-INSERT INTO User (userID, email, role, pass)
-VALUES (1, 'doctor1@example.com', 'Doctor', 'password123');
 
 INSERT INTO User (userID, email, role, pass)
-VALUES (5, 'fd1@gmail.com', 'FrontDesk', 'fd1');
+VALUES (1, 'd1@gmail.com', 'Doctor', 'd1');
+
+INSERT INTO User (userID, email, role, pass)
+VALUES (2, 'd2@gmail.com', 'Doctor', 'd2');
+
+INSERT INTO User (userID, email, role, pass)
+VALUES (3, 'd3@gmail.com', 'Doctor', 'd3');
+
+INSERT INTO User (userID, email, role, pass)
+VALUES (4, 'fd1@gmail.com', 'FrontDesk', 'fd1');
+
+INSERT INTO User (userID, email, role, pass)
+VALUES (5, 'a1@gmail.com','Admin','a1');
 
 INSERT INTO Doctor (doctorID, Name, Department, Date_of_joining, Position, Gender)
 VALUES (1, 'Dr. Smith', 'Cardiology', '2022-01-01 00:00:00', 'Head of Department', 'Male');
@@ -207,3 +216,5 @@ INSERT INTO Stay (patientID, roomNumber, AdmitDate, DischargeDate) VALUES
 (4, 104, '2022-02-08 13:00:00', NULL),
 (5, 105, '2022-02-10 16:00:00', NULL);
 
+INSERT INTO Treatment (patientID, doctorID, treatmentDate, treatmentStatus, Description)
+VALUES (2, 1, '2022-02-15 11:00:00', 'Pending', 'Physical therapy for back pain');
