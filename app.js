@@ -9,6 +9,7 @@ const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const upload = require('express-fileupload');
 const app = express();
 
 const doctorRoutes = require('./routes/doctor');
@@ -46,6 +47,7 @@ app.use(methodOverride('_method'));
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(upload());
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');

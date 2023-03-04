@@ -1,13 +1,13 @@
 <% layout('layouts/boilerplate')%>
 <div class="container">
-  <div class="col-sm-6 col-sm-offset-3">
+  <div class="col-sm-6 col-sm-offset-3 mx-auto">
     <h1><span class="fa fa-sign-in"></span> Schedule Treatment</h1>
     <form
       action="/frontdesk/patient/<%= id %>/treatment"
       method="post"
       class="validated-form"
     >
-      <div class="form-group">
+      <div class="form-floating mb-3">
         <label for="doctor">Doctor</label>
         <select name="doctorID" id="doctor" class="form-control">
           <% for(let doctor of doctors) { %>
@@ -17,8 +17,8 @@
           <% } %>
         </select>
       </div>
-      <div class="form-group">
-        <label>Description</label>
+      <div class="form-floating mb-3">
+        <label for="Description">Description</label>
         <!-- <input type="text" class="form-control" name="Description" required /> -->
         <textarea
           class="form-control"
@@ -30,7 +30,7 @@
         ></textarea>
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <div class="form-group">
+      <div class="form-floating mb-3">
         <label for="TreatmentDate">Treatment Date</label>
         <div class="col-3" style="display: inline-block">
           <input

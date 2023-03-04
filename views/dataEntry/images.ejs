@@ -1,0 +1,55 @@
+<% layout('layouts/boilerplate')%> <% for(let image of images) { %>
+<span>
+  <img
+    src="<%= image.path %>"
+    class="img-fluid mb-5 mx-2"
+    data-toggle="modal"
+    style="width: 300px; height: 300px"
+    data-target="#<%= image.name %>"
+  />
+</span>
+<% } %> <%for(let image of images) { %>
+<div
+  class="modal fade"
+  id="<%= image.name %>"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="<%= image.name %>Label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- Add image inside the body of modal -->
+      <div class="modal-body">
+        <img
+          id="image"
+          src="<%= image.path %>"
+          alt="<%= image.name %>"
+          style="max-width: 100%"
+        />
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<form
+  action="/dataentry/patient/<%= id %>/uploadimages"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <div class="">
+    <div class="form-file custom-file">
+      <input class="form-control mb-3" type="file" id="formFile" name="image" />
+      <div class="mb-3">
+        <button class="btn btn-success" value="Upload">Add Image</button>
+      </div>
+    </div>
+  </div>
+</form>

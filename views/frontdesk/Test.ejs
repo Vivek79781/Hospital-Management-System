@@ -1,38 +1,51 @@
 <% layout('layouts/boilerplate')%>
 <div class="container">
-  <div class="col-sm-6 col-sm-offset-3">
+  <div class="col-sm-6 col-sm-offset-3 mx-auto">
     <h1><span class="fa fa-sign-in"></span> Schedule Test</h1>
     <form
       action="/frontdesk/patient/<%= id %>/test"
       method="post"
       class="validated-form"
     >
-      <!-- <div class="form-group">
+      <!-- <div class="form-floating mb-3">
             <label>TestID</label>
             <input type="number" class="form-control" name="TestID" required />
             <div class="valid-feedback">Looks good!</div>
           </div> -->
-      <!-- <div class="form-group">
+      <!-- <div class="form-floating mb-3">
             <label>PatientID</label>
             <input type="number" class="form-control" name="PatientID" required />
             <div class="valid-feedback">Looks good!</div>
           </div> -->
-      <div class="form-group">
-        <label>Test Center</label>
-        <input type="text" class="form-control" name="Testcenter" required />
+      <div class="form-floating mb-3">
+        <label for="center">Test Center</label>
+        <input
+          type="text"
+          id="center"
+          class="form-control"
+          name="Testcenter"
+          required
+        />
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <div class="form-group">
-        <label>Test Name</label>
-        <input type="text" class="form-control" name="Testname" required />
+      <div class="form-floating mb-3">
+        <label for="name">Test Name</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          name="Testname"
+          required
+        />
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <div class="form-group">
-        <label>Test Date</label>
+      <div class="form-floating mb-3">
+        <label for="date">Test Date</label>
         <div class="col-3 d-inline-block">
           <input
             type="date"
             class="form-control test-date"
+            id="date"
             name="TestDate"
             required
           />
@@ -47,12 +60,12 @@
         </div>
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <!-- <div class="form-group">
+      <!-- <div class="form-floating mb-3">
             <label>Test Result</label>
             <input type="text" class="form-control" name="TestResult" required />
             <div class="valid-feedback">Looks good!</div>
           </div> -->
-      <!-- <div class="form-group">
+      <!-- <div class="form-floating mb-3">
         <label for="TestStatus">Test Status</label>
         <select name="TestStatus" id="TestStatus" class="form-control">
           <option value="Pending">Pending</option>

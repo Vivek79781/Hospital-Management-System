@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { query } = require('../utils/db');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/', async(req, res) => {
     const patients = await query('select * from Patient');
@@ -24,14 +26,41 @@ router.put('/patient/:id/updateTest/:testID', async(req, res) => {
     res.redirect(`/dataEntry/patient/${id}/updateTest`);
 });
 
-router.get('/patient/:id/uploadImages', async(req, res) => {
+router.get('/patient/:id/images', async(req, res) => {
     const { id } = req.params;
-    res.render('dataEntry/uploadImages', { id });
+    const directoryPath = path.join(__dirname,'..', 'public', 'uploads', id);
+    if(fs.existsSync(directoryPath) === false) {
+        fs.mkdirSync(directoryPath, { recursive: true });
+    }
+    const files = fs.readdirSync(directoryPath);
+    
+    const images = files.filter(file => file.endsWith('.jpg') || file.endsWith('.png') || file.endsWith('.jpeg')).map(file => {
+        return {
+            name: file,
+            path: `/uploads/${id}/${file}`
+        }
+    });
+    res.render('dataEntry/images', { id, images });
 });
 
-router.post('/patient/:id/uploadImages', async(req, res) => {
+router.post('/patient/:id/uploadimages', async(req, res) => {
     const { id } = req.params;
-    res.redirect(`/dataEntry/patient/${id}/uploadImages`);
+    if (req.files) {
+            const file = req.files.image;
+            const directoryPath = path.join(__dirname,'..', 'public', 'uploads', id);
+            if(fs.existsSync(directoryPath) === false) {
+                fs.mkdirSync(directoryPath, { recursive: true });
+            }            
+            const filepath = path.join(directoryPath, file.name);
+            console.log(file);
+            file.mv(filepath, function(err){
+                if(err){
+                    req.flash('error', 'Images uploaded unsuccessfully');
+                }
+            });
+        req.flash('success', 'Images uploaded successfully');
+    }
+    res.redirect(`/dataEntry/patient/${id}/images`);
 });
 
 module.exports = router;

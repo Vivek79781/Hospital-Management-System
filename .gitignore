@@ -2,3 +2,4 @@
 utils\config.js
 node_modules
 .env
+public\uploads
