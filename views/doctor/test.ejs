@@ -1,0 +1,33 @@
+<% layout('layouts/boilerplate')%>
+  <div class="container">
+    <div class="col-12">
+      <% //for(let pt of patient) { %>
+      <h1><span class="fa fa-sign-in"></span> Test History of <%= patient[0].Name %></h1>
+      <% //} %>
+        <!-- Write table -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Test ID</th>
+              <th scope="col">Test Center</th>
+              <th scope="col">Test Name</th>
+              <th scope="col">Test Date </th>
+              <th scope="col">Test Status </th>
+              <th scope="col">Test Result </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let test of tests) { %>
+            <tr>
+              <td><%= test.testID %></td>
+              <td><%= test.testCenter %></td>
+              <td><%= test.testName %></td>
+              <td><%= test.testDate.toISOString().slice(0, 19).replace('T', ' ') %></td>
+              <td><%= test.testStatus %></td>
+              <td><%= test.testResult %></td>
+            </tr>
+            <% } %>
+          </tbody>
+      <hr />
+    </div>
+  </div>

@@ -50,6 +50,32 @@ router.get('/patient/:id/treatment', async(req, res) => {
 });
 
 
+router.get('/patient/:id/test', async(req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const patient = await query(`select * from Patient where patientID = ${id}`)
+    const tests = await query(`select Test.* from Test where patientID = ${id}`)
+    console.log(tests);
+    if(tests.length === 0) {
+        // loop over patients and print the name
+        for (let i = 0; i < patient.length; i++) {
+            let str = patient[i].Name + ' has not undergone any test';
+            req.flash('success', str);
+        }
+        // req.flash('success', 'This patient has not undergone any treatment');
+        res.redirect('/doctor');
+    }
+    else {
+        // sort the tests by date
+        tests.sort((a, b) => {
+            return new Date(a.testDate) - new Date(b.testDate);
+        });
+        res.render('doctor/test',{tests, patient});
+    }
+
+});
+
+
 
 
 module.exports = router;
