@@ -20,10 +20,16 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', async(req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
+    try{
     const { Name, Address, Phone, email, DateOfBirth, Gender } = req.body;
     await query(`INSERT INTO Patient (Name, DOB, Gender, Address, Phone, email, Registration_Date) VALUES ('${Name}', '${DateOfBirth}', '${Gender}', '${Address}', '${Phone}', '${email}', '${new Date().toISOString().slice(0, 19).replace('T', ' ')}' )`)
-    res.redirect('/frontdesk/register');
+    req.flash('success', 'Patient has been registered');
+    res.redirect('/frontdesk');
+    } catch(err) {
+        req.flash('error', 'Patient has not been registered');
+        res.redirect('/frontdesk/register');
+    }
 });
 
 router.get('/patient/:id/discharge', async(req, res) => {
@@ -53,7 +59,7 @@ router.get('/patient/:id/admit', async(req, res) => {
 router.get('/patient/:id/treatment', async(req, res) => {
     const { id } = req.params;
     const doctors = await query(`select * from Doctor where doctorID in (select userID from User where role = 'Doctor')`)
-    res.render('frontdesk/Treatment',{id,doctors});
+    res.render('frontdesk/treatment',{id,doctors});
 });
 
 router.post('/patient/:id/treatment', async(req, res) => {
@@ -76,7 +82,7 @@ router.post('/patient/:id/treatment', async(req, res) => {
 
 router.get('/patient/:id/test', async(req, res) => {
     const { id } = req.params;
-    res.render('frontdesk/Test',{id});
+    res.render('frontdesk/test',{id});
 });
 
 router.post('/patient/:id/test', async(req, res) => {

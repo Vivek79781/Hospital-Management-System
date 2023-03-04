@@ -1,9 +1,9 @@
 <% layout('layouts/boilerplate')%>
   <div class="container">
     <div class="col-12">
-      <% for(let pt of patient) { %>
-      <h1><span class="fa fa-sign-in"></span> Treatment History of <%= pt.Name %></h1>
-      <% } %>
+      <% //for(let pt of patient) { %>
+      <h1><span class="fa fa-sign-in"></span> Treatment History of <%= patient[0].Name %></h1>
+      <% //} %>
         <!-- Write table -->
         <table class="table table-striped">
           <thead>
