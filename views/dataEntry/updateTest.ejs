@@ -13,8 +13,14 @@
       test.testDate.toISOString().slice(0,19).replace('T', ' ') %>
     </p>
     <p class="card-text">
-      <strong>Test Status: </strong
-      ><span class="badge badge-warning"><%= test.testStatus %></span>
+      <strong>Test Status: </strong>
+      <% if (test.testStatus == "Pending") { %>
+      <span class="badge bg-warning"><%= test.testStatus %></span>
+      <% } else if (test.testStatus == "Completed") { %>
+      <span class="badge bg-success"><%= test.testStatus %></span>
+      <% } else if (test.testStatus == "On Going") { %>
+      <span class="badge bg-info"><%= test.testStatus %></span>
+      <% } %>
     </p>
     <form
       action="/dataentry/patient/<%= id %>/updateTest/<%= test.testID %>?_method=PUT"

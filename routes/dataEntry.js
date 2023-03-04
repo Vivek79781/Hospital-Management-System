@@ -63,4 +63,34 @@ router.post('/patient/:id/uploadimages', async(req, res) => {
     res.redirect(`/dataEntry/patient/${id}/images`);
 });
 
+router.get('/patient/:id/updateTreatment', async(req, res) => {
+    const { id } = req.params;
+    const treatments = await query(`select * from Treatment,Doctor where patientID=${id}  AND Treatment.doctorID=Doctor.doctorID`);
+    // console.log(treatments);
+    // res.redirect(`/dataEntry`);
+    res.render('dataEntry/updateTreatment', { id, treatments });
+});
+
+router.put('/patient/:id/updateTreatment/:treatmentID', async(req, res) => {
+    const { id, treatmentID } = req.params;
+    const { treatmentStatus } = req.body;
+    await query(`update Treatment set treatmentStatus='${treatmentStatus}' where treatmentID=${treatmentID}`);
+    req.flash('success', 'Treatment updated successfully');
+    res.redirect(`/dataEntry/patient/${id}/updateTreatment`);
+});
+
+router.get('/patient/:id/updateAppointment', async(req, res) => {
+    const { id } = req.params;
+    const appointments = await query(`select * from Appointment where patientID=${id}`);
+    res.render('dataEntry/updateAppointment', { id, appointments });
+});
+
+router.put('/patient/:id/updateAppointment/:appointmentID', async(req, res) => {
+    const { id, appointmentID } = req.params;
+    const { appointmentStatus } = req.body;
+    await query(`update Appointment set appointmentStatus='${appointmentStatus}' where appointmentID=${appointmentID}`);
+    req.flash('success', 'Appointment updated successfully');
+    res.redirect(`/dataEntry/patient/${id}/updateAppointment`);
+});
+
 module.exports = router;

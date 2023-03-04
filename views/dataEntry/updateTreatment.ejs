@@ -1,0 +1,52 @@
+<% layout('layouts/boilerplate')%>
+<h1 class="text-center">Update Treatment</h1>
+<div class="row">
+  <% for(let treatment of treatments) { %>
+  <div class="card w-25 d-inline-block col-4">
+    <div class="card-body">
+      <p class="card-text">
+        <strong>Treatment Description:</strong><%= treatment.Description %>
+        <strong> By </strong> <%= treatment.Name %> - <%= treatment.Department
+        %>
+      </p>
+
+      <p class="card-text">
+        <strong>Treatment Date: </strong> <%=
+        treatment.treatmentDate.toISOString().slice(0,19).replace('T', ' ') %>
+      </p>
+      <p class="card-text">
+        <strong>Treatment Status: </strong>
+        <% if(treatment.treatmentStatus == "Pending") { %>
+        <span class="badge bg-warning"><%= treatment.treatmentStatus %></span>
+        <% } else if(treatment.treatmentStatus == "Completed") { %>
+        <span class="badge bg-success"><%= treatment.treatmentStatus %></span>
+        <% } else if(treatment.treatmentStatus == "On Going") { %>
+        <span class="badge bg-info"><%= treatment.treatmentStatus %></span>
+        <% } %>
+      </p>
+      <% if(treatment.treatmentStatus !== "Completed") { %>
+      <form
+        action="/dataentry/patient/<%= id %>/updateTreatment/<%= treatment.treatmentID %>?_method=PUT"
+        method="post"
+      >
+        <div class="form-group mb-0">
+          <label for="treatmentStatus">
+            <strong>Treatment Status:</strong>
+          </label>
+          <select
+            class="form-control"
+            id="treatmentStatus"
+            name="treatmentStatus"
+          >
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="On Going">On Going</option>
+          </select>
+          <button class="btn btn-primary mt-2">UPDATE</button>
+        </div>
+      </form>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+</div>

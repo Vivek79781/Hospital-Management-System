@@ -67,6 +67,7 @@ router.post('/patient/:id/treatment', async(req, res) => {
     console.log(req.body);
     const { doctorID, Description, TreatmentDate, TreatmentTime } = req.body;
     const DateTreatment = TreatmentDate + ' ' + TreatmentTime
+    console.log(DateTreatment);
     const treatments = await query(`select * from Treatment where doctorID = ${doctorID} and treatmentDate = '${DateTreatment}'`)
     if(treatments.length === 0) {
         await query(`INSERT INTO Treatment (patientID, doctorID, Description, TreatmentDate, TreatmentStatus) VALUES (${id}, ${doctorID}, '${Description}', '${DateTreatment}', 'Pending')`)
