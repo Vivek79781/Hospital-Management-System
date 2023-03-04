@@ -1,15 +1,20 @@
 <% layout('layouts/boilerplate')%>
 <div class="container">
-  <div class="col-sm-6 col-sm-offset-3">
+  <div class="col-sm-6 col-sm-offset-3 mx-auto">
     <h1><span class="fa fa-sign-in"></span> Create Admin</h1>
     <form action="/createAdmin" method="post">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="text" class="form-control" name="email" />
+      <div class="form-group mb-3">
+        <label for="email">Email</label>
+        <input type="text" id="email" class="form-control" name="email" />
       </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" name="password" />
+      <div class="form-group mb-3">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          name="password"
+        />
       </div>
       <button type="submit" class="btn btn-warning btn-lg">Create</button>
     </form>
