@@ -81,14 +81,15 @@ router.put('/patient/:id/updateTreatment/:treatmentID', async(req, res) => {
 
 router.get('/patient/:id/updateAppointment', async(req, res) => {
     const { id } = req.params;
-    const appointments = await query(`select * from Appointment where patientID=${id}`);
+    const appointments = await query(`select * from Appointment,Doctor where patientID=${id} AND Appointment.doctorID=Doctor.doctorID `);
+    console.log(appointments);
     res.render('dataEntry/updateAppointment', { id, appointments });
 });
 
 router.put('/patient/:id/updateAppointment/:appointmentID', async(req, res) => {
     const { id, appointmentID } = req.params;
     const { appointmentStatus } = req.body;
-    await query(`update Appointment set appointmentStatus='${appointmentStatus}' where appointmentID=${appointmentID}`);
+    await query(`update Appointment set Status='${appointmentStatus}' where appointmentID=${appointmentID}`);
     req.flash('success', 'Appointment updated successfully');
     res.redirect(`/dataEntry/patient/${id}/updateAppointment`);
 });

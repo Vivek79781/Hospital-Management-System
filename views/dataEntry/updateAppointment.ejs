@@ -1,0 +1,62 @@
+<% layout('layouts/boilerplate')%>
+<h1 class="text-center">Update Appointment</h1>
+<div class="row">
+  <% for(let appointment of appointments) { %>
+  <div class="card w-25 d-inline-block col-4">
+    <div class="card-body">
+      <p class="card-text">
+        <strong>Appointment To:</strong><%= appointment.Name %>
+      </p>
+
+      <p class="card-text">
+        <strong>Appointment Date: </strong> <%=
+        appointment.Date.toISOString().slice(0,19).replace('T', ' ') %>
+      </p>
+      <p class="card-text">
+        <strong>Reason: </strong> <%= appointment.Reason%>
+      </p>
+      <p class="card-text">
+        <strong>Priority: </strong> <% if(appointment.priority == 1) { %>
+        <span class="badge bg-secondary">Moderate</span>
+        <% } else if(appointment.priority == 2) { %>
+        <span class="badge bg-warning">Severe</span>
+        <% } else if(appointment.priority == 3) { %>
+        <span class="badge bg-danger">Highly Severe</span>
+        <% } %>
+      </p>
+      <p class="card-text">
+        <strong>Appointment Status: </strong>
+        <% if(appointment.Status == "Pending") { %>
+        <span class="badge bg-warning"><%= appointment.Status %></span>
+        <% } else if(appointment.Status == "Completed") { %>
+        <span class="badge bg-success"><%= appointment.Status %></span>
+        <% } else if(appointment.Status == "Cancelled") { %>
+        <span class="badge bg-danger"><%= appointment.Status %></span>
+        <% } %>
+      </p>
+      <% if(appointment.Status !== "Completed") { %>
+      <form
+        action="/dataentry/patient/<%= id %>/updateAppointment/<%= appointment.appointmentID %>?_method=PUT"
+        method="post"
+      >
+        <div class="form-group mb-0">
+          <label for="appointmentStatus">
+            <strong>Appointment Status:</strong>
+          </label>
+          <select
+            class="form-control"
+            id="appointmentStatus"
+            name="appointmentStatus"
+          >
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+          <button class="btn btn-primary mt-2">UPDATE</button>
+        </div>
+      </form>
+      <% } %>
+    </div>
+  </div>
+  <% } %>
+</div>

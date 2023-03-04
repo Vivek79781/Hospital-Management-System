@@ -96,9 +96,26 @@ router.post('/patient/:id/test', async(req, res) => {
     res.redirect('/frontdesk');
 });
 
-router.get('/patient/:id/appointment', async(req, res) => {
+router.get('/patient/:id/bookappointment', async(req, res) => {
     const { id } = req.params;
-    res.render('frontdesk/appointment',{id});
+    const doctors = await query(`select * from Doctor where doctorID in (select userID from User where role = 'Doctor')`)
+    res.render('frontdesk/appointment',{id,doctors});
+});
+
+router.post('/patient/:id/bookappointment', async(req, res) => {
+    const { id } = req.params;
+    console.log(req.body);
+    const { doctorID, Priority, Date, time, reason } = req.body;
+    const DateAppointment = Date + ' ' + time
+    const appointments = await query(`select * from Appointment where doctorID = ${doctorID} and Date = '${DateAppointment}'`)
+    if(appointments.length === 0) {
+        await query(`INSERT INTO Appointment (patientID, doctorID, Priority, Date, Reason, Status) VALUES (${id}, ${doctorID}, '${Priority}', '${DateAppointment}', '${reason}', 'Pending')`)
+        req.flash('success', 'Appointment has been scheduled');
+        res.redirect('/frontdesk');
+    } else {
+        req.flash('error', 'Doctor is not available at this time');
+        res.redirect('/frontdesk/patient/:id/bookappointment');
+    }
 });
 
 module.exports = router;
