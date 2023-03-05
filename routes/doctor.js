@@ -43,7 +43,15 @@ router.get('/', async (req, res) => {
     // Treatment Schedule
     console.log(appointments);
     const treatments = await query(`select * from Treatment where treatmentStatus = 'Pending'`)
-    res.render('doctor/dashboard', { doctor, patients, stays, available, treatments, appointments });
+    if (appointments.length === 0) {
+        const flashMessage = req.flash('success', '');
+        const message = 'No appointments for today';
+        res.render('doctor/dashboard', { doctor, patients, stays, available, treatments, appointments, message, flashMessage });
+    } else {
+        const flashMessage = 0;
+        const message = 0;
+        res.render('doctor/dashboard', { doctor, patients, stays, available, treatments, appointments, message, flashMessage });
+    }
 });
 
 
