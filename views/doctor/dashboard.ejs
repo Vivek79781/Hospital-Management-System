@@ -1,65 +1,97 @@
-<% layout('layouts/boilerplate')%> <% for(let dt of doctor) { %>
-<h1 class="text-center">Hello, <%= dt.Name %> Here are the list of Patients</h1>
-<% } %>
+<% layout('layouts/boilerplate')%>
+  <% for(let dt of doctor) { %>
+    <h1 class="text-center">Hello, <%= dt.Name %> Here is the list of all appointmnets</h1>
+    <% } %>
+      <!-- Show all appointments in a table -->
+      <div class="container-fluid row px-0">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Appointment ID</th>
+              <th scope="col">Patient Name</th>
+              <th scope="col">Appointment Time</th>
+              <th scope="col">Priority</th>
+              <th scope="col">Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let appointment of appointments) { %>
+              <tr>
+                <th scope="row">
+                  <%= appointment.appointmentID %>
+                </th>
+                <td>
+                  <%= appointment.patientName %>
+                </td>
+                <td>
+                  <%= appointment.Date %>
+                </td>
+                <td>
+                  <%= appointment.priority %>
+                </td>
+                <td>
+                  <%= appointment.Reason %>
+                </td>
+              </tr>
+              <% } %>
+          </tbody>
+        </table>
+        <h1 class="text-center"></h1>
+        <h1 class="text-center">Here are the list of Patients</h1>
 
-<div class="container-fluid row px-0">
-  <% for(let patient of patients) { %>
-  <div class="card col-4 mx-2 my-2" style="width: 25rem">
-    <div class="card-body">
-      <h5 class="card-title">
-        <strong>PatientID: </strong>
-        <%= patient.patientID %>
-      </h5>
-      <p class="card-text">
-        <strong>Name: </strong>
-        <%= patient.Name %>
-      </p>
-      <Address>
-        <p class="card-text">
-          <strong>Address: </strong>
-          <%= patient.Address%>
-        </p>
-      </Address>
-      <p class="card-text">
-        <strong>Phone: </strong>
-        <%= patient.Phone %>
-      </p>
-      <p class="card-text">
-        <strong>Email: </strong>
-        <%= patient.email %>
-      </p>
-      <p class="card-text">
-        <strong>DOB: </strong>
-        <%= patient.DOB.toISOString().slice(0, 19).replace('T', ' ' ) %>
-      </p>
-      <p class="card-text">
-        <strong>Registration date: </strong><%=
-        patient.Registration_Date.toISOString().slice(0, 19).replace('T',' ')%>
+
+        <div class="container-fluid row px-0">
+          <% for(let patient of patients) { %>
+            <div class="card col-4 mx-2 my-2" style="width: 25rem">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <strong>PatientID: </strong>
+                  <%= patient.patientID %>
+                </h5>
+                <p class="card-text">
+                  <strong>Name: </strong>
+                  <%= patient.Name %>
+                </p>
+                <Address>
+                  <p class="card-text">
+                    <strong>Address: </strong>
+                    <%= patient.Address%>
+                  </p>
+                </Address>
+                <p class="card-text">
+                  <strong>Phone: </strong>
+                  <%= patient.Phone %>
+                </p>
+                <p class="card-text">
+                  <strong>Email: </strong>
+                  <%= patient.email %>
+                </p>
+                <p class="card-text">
+                  <strong>DOB: </strong>
+                  <%= patient.DOB.toISOString().slice(0, 19).replace('T', ' ' ) %>
+                </p>
+                <p class="card-text">
+                  <strong>Registration date: </strong>
+                  <%= patient.Registration_Date.toISOString().slice(0, 19).replace('T',' ')%>
       </p>
       <% var stayIndex=stays.findIndex(stay => stay.patientID ==
       patient.patientID) %> <% if(stayIndex !=-1){ %>
       <p class="card-text">
         <strong>Admission date: </strong><%=stays[stayIndex].AdmitDate.
-        toISOString().slice(0, 19).replace('T', ' ' )%>
-      </p>
-      <p class="card-text">
-        <strong> Room number: </strong>
-        <%= stays[stayIndex].roomNumber%>
-      </p>
-      <% } %>
-    </div>
-    <a
-      href="/doctor/patient/<%=patient.patientID%>/treatment"
-      class="btn btn-primary my-1"
-      >Treatment History
-    </a>
-    <a
-      href="/doctor/patient/<%=patient.patientID%>/test"
-      class="btn btn-primary my-1"
-      >Test History
-    </a>
-  </div>
-  <% } %>
-</div>
+        toISOString().slice(0, 19).replace(' T', ' ' )%>
+                </p>
+                <p class="card-text">
+                  <strong> Room number: </strong>
+                  <%= stays[stayIndex].roomNumber%>
+                </p>
+                <% } %>
+              </div>
+              <a href="/doctor/patient/<%=patient.patientID%>/treatment" class="btn btn-primary my-1">Treatment History
+              </a>
+              <a href="/doctor/patient/<%=patient.patientID%>/test" class="btn btn-primary my-1">Test History
+              </a>
+            </div>
+            <% } %>
+        </div>
 
-<!-- Bhai tera footer head pe aa raha hai samjha le usko pela jayega -->
+        <!-- Bhai tera footer head pe aa raha hai samjha le usko pela jayega -->
