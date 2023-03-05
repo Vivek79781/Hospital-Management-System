@@ -9,7 +9,7 @@ const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
-const upload = require('express-fileupload');
+const upload = require('expdress-fileupload');
 const app = express();
 
 const doctorRoutes = require('./routes/doctor');
