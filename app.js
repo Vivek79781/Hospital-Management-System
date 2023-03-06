@@ -1,7 +1,9 @@
+// avoid commiting sensitive data in production environment
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
+// import library
 const express = require('express');
 const path = require('path');
 const ejsMate = require('ejs-mate');
@@ -10,6 +12,8 @@ const jwt = require('jsonwebtoken');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const upload = require('express-fileupload');
+
+// app initialization
 const app = express();
 
 const doctorRoutes = require('./routes/doctor');
