@@ -1,0 +1,68 @@
+<% layout('layouts/boilerplate')%>
+<h1 class="text-center">All Registered Patients:</h1>
+<div class="container-fluid row px-0">
+  <% for(let patient of patients) { %>
+  <div class="card col-4 mx-2 my-2 mb-4" style="width: 25rem">
+    <div class="card-body">
+      <h5 class="card-title">
+        <strong>PatientID: </strong><%= patient.patientID %>
+      </h5>
+      <p class="card-text"><strong>Name: </strong> <%= patient.Name %></p>
+      <Address
+        ><p class="card-text">
+          <strong>Address: </strong><%= patient.Address%>
+        </p></Address
+      >
+      <p class="card-text"><strong>Phone: </strong> <%= patient.Phone %></p>
+      <p class="card-text"><strong>Email: </strong> <%= patient.email %></p>
+      <p class="card-text">
+        <strong>DOB: </strong> <%= patient.DOB.toISOString().slice(0,
+        19).replace('T', ' ') %>
+      </p>
+      <p class="card-text">
+        <strong>Registration date: </strong><%=
+        patient.Registration_Date.toISOString().slice(0, 19).replace('T', ' ')%>
+      </p>
+      <% var stayIndex = stays.findIndex(stay => stay.patientID ==
+      patient.patientID) %> <% if(stayIndex != -1){ %>
+      <p class="card-text">
+        <strong>Admission date: </strong><%=stays[stayIndex].AdmitDate.
+        toISOString().slice(0, 19).replace('T', ' ')%>
+      </p>
+      <p class="card-text">
+        <strong> Room number: </strong><%= stays[stayIndex].roomNumber%>
+      </p>
+      <% } %> <% var treatmentIndex = treatments.findIndex(treatment =>
+      treatment.patientID == patient.patientID) %> <% if(treatmentIndex != -1){
+      %>
+      <p class="card-text">
+        <strong> Treatment date: </strong><%=
+        treatments[treatmentIndex].treatmentDate.toISOString().slice(0,
+        19).replace('T', ' ')%>
+      </p>
+      <p class="card-text">
+        <strong> Treatment Description: </strong><%=
+        treatments[treatmentIndex].Description%>
+      </p>
+      <% } %>
+    </div>
+    <a
+      href="/doctor/patient/<%=patient.patientID%>/scheduletest"
+      class="btn btn-primary my-1"
+      >Schedule Test</a
+    >
+    <% if(treatmentIndex == -1) { %>
+    <a
+      href="/doctor/patient/<%=patient.patientID%>/scheduletreatment"
+      class="btn btn-primary my-1"
+      >Schedule Treatment
+    </a>
+    <% } %>
+    <a
+      href="/doctor/patient/<%= patient.patientID %>/images"
+      class="btn btn-primary my-1"
+      >Show Images</a
+    >
+  </div>
+  <% } %>
+</div>

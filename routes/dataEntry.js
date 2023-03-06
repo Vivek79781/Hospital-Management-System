@@ -21,7 +21,9 @@ router.put('/patient/:id/updateTest/:testID', async(req, res) => {
     const { id, testID } = req.params;
     const { testResult } = req.body;
     // Update test result and testStatus
-    await query(`update Test set testResult='${testResult}', testStatus='completed' where testID=${testID}`);
+    const now = new Date();
+    const dateTime = now.toISOString().slice(0, 19).replace('T', ' ');
+    await query(`update Test set testResult='${testResult}', testStatus='completed', testDate='${dateTime}' where testID=${testID}`);
     req.flash('success', 'Test result updated successfully');
     res.redirect(`/dataEntry/patient/${id}/updateTest`);
 });
@@ -66,8 +68,6 @@ router.post('/patient/:id/uploadimages', async(req, res) => {
 router.get('/patient/:id/updateTreatment', async(req, res) => {
     const { id } = req.params;
     const treatments = await query(`select * from Treatment,Doctor where patientID=${id}  AND Treatment.doctorID=Doctor.doctorID`);
-    // console.log(treatments);
-    // res.redirect(`/dataEntry`);
     res.render('dataEntry/updateTreatment', { id, treatments });
 });
 

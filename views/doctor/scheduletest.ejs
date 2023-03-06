@@ -1,0 +1,69 @@
+<% layout('layouts/boilerplate')%>
+<div class="container">
+  <div class="col-sm-6 col-sm-offset-3 mx-auto">
+    <h1><span class="fa fa-sign-in"></span> Schedule Test</h1>
+    <form
+      action="/doctor/patient/<%= id %>/test"
+      method="post"
+      class="validated-form"
+    >
+      <div class="form-floating mb-3">
+        <label for="center">Test Center</label>
+        <input
+          type="text"
+          id="center"
+          class="form-control"
+          name="Testcenter"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="form-floating mb-3">
+        <label for="name">Test Name</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          name="Testname"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <!-- <div class="form-floating mb-3">
+        <label for="date">Test Date</label>
+        <div class="col-3 d-inline-block">
+          <input
+            type="date"
+            class="form-control test-date"
+            id="date"
+            name="TestDate"
+            required
+          />
+        </div>
+        <div class="col-3 d-inline-block">
+          <input
+            type="time"
+            class="form-control test-time"
+            name="TestTime"
+            required
+          />
+        </div>
+        <div class="valid-feedback">Looks good!</div>
+      </div> -->
+      <button type="submit" class="btn btn-warning btn-lg">Register</button>
+    </form>
+    <hr />
+  </div>
+</div>
+
+<script>
+  const testDate = document.querySelector('.test-date');
+  testDate.addEventListener('change', (e) => {
+    const date = new Date(e.target.value);
+    const today = new Date();
+    if (date < today) {
+      alert('Please select a date in the future');
+      e.target.value = '';
+    }
+  });
+</script>

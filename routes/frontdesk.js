@@ -89,8 +89,9 @@ router.get('/patient/:id/test', async(req, res) => {
 router.post('/patient/:id/test', async(req, res) => {
     const { id } = req.params;
     console.log(req.body);
-    const { Testname, TestDate, TestTime, Testcenter } = req.body;
-    DateTest = TestDate + ' ' + TestTime
+    const { Testname, Testcenter } = req.body;
+    const now = new Date();
+    DateTest = now.toISOString().slice(0, 19).replace('T', ' ');
     await query(`INSERT INTO Test (patientID, TestName, TestDate, TestCenter, TestStatus) VALUES (${id}, '${Testname}', '${DateTest}', '${Testcenter}', 'Pending')`)
     req.flash('success', 'Test has been scheduled');
     res.redirect('/frontdesk');
@@ -105,15 +106,34 @@ router.get('/patient/:id/bookappointment', async(req, res) => {
 router.post('/patient/:id/bookappointment', async(req, res) => {
     const { id } = req.params;
     console.log(req.body);
-    const { doctorID, Priority, Date, time, reason } = req.body;
+    const { doctorID, Date, time, reason } = req.body;
     const DateAppointment = Date + ' ' + time
     const appointments = await query(`select * from Appointment where doctorID = ${doctorID} and Date = '${DateAppointment}'`)
     if(appointments.length === 0) {
-        await query(`INSERT INTO Appointment (patientID, doctorID, Priority, Date, Reason, Status) VALUES (${id}, ${doctorID}, '${Priority}', '${DateAppointment}', '${reason}', 'Pending')`)
+        await query(`INSERT INTO Appointment (patientID, doctorID, Priority, Date, Reason, Status) VALUES (${id}, ${doctorID}, 2, '${DateAppointment}', '${reason}', 'Pending')`)
         req.flash('success', 'Appointment has been scheduled');
         res.redirect('/frontdesk');
     } else {
         req.flash('error', 'Doctor is not available at this time');
+        res.redirect('/frontdesk/patient/:id/bookappointment');
+    }
+});
+
+router.get('/patient/:id/emergency', async(req, res) => {
+    const { id } = req.params;
+    console.log(req.body);
+    now = new Date();
+    now.setMinutes(Math.floor(now.getMinutes()/4) * 4);
+    dateTime = now.toISOString().slice(0, 19).replace('T', ' ');
+
+    // Available doctors
+    const doctors = await query(`select * from Doctor where doctorID in (select userID from User where role = 'Doctor') AND doctorID NOT IN (select doctorID from Appointment where Date = '${dateTime}')`)
+    if(doctors.length !== 0) {
+        await query(`INSERT INTO Appointment (patientID, doctorID, Priority, Date, Reason, Status) VALUES (${id}, ${doctors[0].doctorID}, 3, '${dateTime}', 'Emergency', 'Pending')`)
+        req.flash('success', 'Emergency Appointment has been scheduled');
+        res.redirect('/frontdesk');
+    } else {
+        req.flash('error', 'Sorry, no doctors are available at this time');
         res.redirect('/frontdesk/patient/:id/bookappointment');
     }
 });

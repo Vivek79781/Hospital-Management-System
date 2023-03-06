@@ -41,6 +41,12 @@ router.post('/register', async(req, res) => {
 router.delete('/user', async(req, res) => {
     console.log(req.body);
     const { userID } = req.body;
+    const user = await query(`select * from User where userID = ${userID}`);
+    if(user[0].role === 'Doctor') {
+        await query(`delete from Appointment where doctorID = ${userID}`);
+        await query(`delete from Treatment where doctorID = ${userID}`);
+        await query(`delete from Doctor where doctorID = ${userID}`);
+    }
     await query(`delete from User where userID='${userID}'`);
     res.redirect('/admin');
 });

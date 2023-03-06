@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { query } = require('../utils/db');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/', async (req, res) => {
     // req.user.userID = req.user.userID.toString()
@@ -24,7 +26,12 @@ router.get('/', async (req, res) => {
 
     console.log(mysqlDateTime);
     // show all appointments under the doctor which are not more than 30 minutes old than the current time and appointment has a Date attribute which is DateTIme in mysql
-    let appointments = await query(`select * from Appointment where doctorID = ${id} and Date > '${mysqlDateTime}'`);
+    // let dates = await query(`select Date from Appointment where doctorID = ${id} and Date > '${mysqlDateTime}'`);
+    // console.log(dates);
+    let appointments = await query(`select * from Appointment where doctorID = ${id}`);
+    appointments = appointments.filter(appointment => {
+        return appointment.Date > mysqlDateTime;
+    });
     // sort the appointments by priority in descending order
     appointments.sort((a, b) => {
         return b.priority - a.priority;
@@ -106,7 +113,73 @@ router.get('/patient/:id/test', async (req, res) => {
 
 });
 
+router.get('/patient', async (req, res) => {
+    const patients = await query(`select * from Patient`)
+    const stays = await query(`select * from Stay where DischargeDate is null`)
+    const treatments = await query(`select * from Treatment where treatmentStatus = 'Pending'`)
+    res.render('doctor/patient', { patients, stays, treatments });
+});
 
+router.get('/patient/:id/images', async(req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const directoryPath = path.join(__dirname,'..', 'public', 'uploads', id);
+    console.log(directoryPath);
+    if(fs.existsSync(directoryPath) === false) {
+        fs.mkdirSync(directoryPath, { recursive: true });
+    }
+    const files = fs.readdirSync(directoryPath);
+    
+    const images = files.filter(file => file.endsWith('.jpg') || file.endsWith('.png') || file.endsWith('.jpeg')).map(file => {
+        return {
+            name: file,
+            path: `/uploads/${id}/${file}`
+        }
+    });
+    res.render('doctor/images', { id, images });
+});
+
+router.get('/patient/:id/scheduletest', async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    res.render('doctor/scheduletest', { id });
+});
+
+router.post('/patient/:id/test', async(req, res) => {
+    const { id } = req.params;
+    console.log(req.body);
+    const { Testname, Testcenter } = req.body;
+    const now = new Date();
+    DateTest = now.toISOString().slice(0, 19).replace('T', ' ');
+    await query(`INSERT INTO Test (patientID, TestName, TestDate, TestCenter, TestStatus) VALUES (${id}, '${Testname}', '${DateTest}', '${Testcenter}', 'Pending')`)
+    req.flash('success', 'Test has been scheduled');
+    res.redirect('/doctor/patient');
+});
+
+
+router.get('/patient/:id/scheduletreatment', async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    res.render('doctor/scheduletreatment', { id });
+});
+
+router.post('/patient/:id/treatment', async(req, res) => {
+    const { id } = req.params;
+    console.log(req.body);
+    const { doctorID, Description, TreatmentDate, TreatmentTime } = req.body;
+    const DateTreatment = TreatmentDate + ' ' + TreatmentTime
+    console.log(DateTreatment);
+    const treatments = await query(`select * from Treatment where doctorID = ${doctorID} and treatmentDate = '${DateTreatment}'`)
+    if(treatments.length === 0) {
+        await query(`INSERT INTO Treatment (patientID, doctorID, Description, TreatmentDate, TreatmentStatus) VALUES (${id}, ${doctorID}, '${Description}', '${DateTreatment}', 'Pending')`)
+        req.flash('success', 'Treatment has been scheduled');
+        res.redirect('/doctor/patient');
+    } else {
+        req.flash('error', 'Doctor is not available at this time');
+        res.redirect('/doctor/patient/:id/scheduletreatment');
+    }
+
+});
 
 
 module.exports = router;
