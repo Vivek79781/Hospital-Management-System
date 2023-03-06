@@ -16,25 +16,30 @@ const upload = require('express-fileupload');
 // app initialization
 const app = express();
 
+// import routes
 const doctorRoutes = require('./routes/doctor');
 const dataEntryRoutes = require('./routes/dataEntry');
 const frontdeskRoutes = require('./routes/frontdesk');
 const adminRoutes = require('./routes/admin');
 
+// import middleware
 const auth = require('./middleware/auth');
 const isDoctor = require('./middleware/isDoctor');
 const isAdmin = require('./middleware/isAdmin');
 const isFrontdesk = require('./middleware/isFrontdesk');
 const isDataEntry = require('./middleware/isDataEntry');
 
+// import utils
 const ExpressError = require('./utils/ExpressError');
 const { query } = require('./utils/db')
 const catchAsync = require('./utils/catchAsync');
 
+// app configuration
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
+// session configuration to store user session on server side
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret',
     resave: true,
@@ -46,18 +51,23 @@ const sessionConfig = {
     }
 }
 
+// app middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(upload());
+
+// app locals
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
+
+// 'GET' request to home page
 app.get('/', catchAsync(async(req, res) => {
     const token = req.session.token;
     if(!token) {
@@ -79,6 +89,7 @@ app.get('/', catchAsync(async(req, res) => {
     }
 }));
 
+// 'POST' request to login page
 app.post('/login', catchAsync(async(req, res) => {
     const { password, email } = req.body;
     const user = await query(`select * from User where email='${email}' AND pass='${password}'`)
@@ -105,6 +116,8 @@ app.post('/login', catchAsync(async(req, res) => {
         }
         )    
 }));
+
+// 'GET' request to create admin page
 app.get('/createAdmin', (req, res, next) => {
     if(process.env.NODE_ENV !== 'production'){
         res.render('createAdmin');
@@ -115,6 +128,7 @@ app.get('/createAdmin', (req, res, next) => {
     }
 })
 
+// 'POST' request to create admin page
 app.post('/createAdmin', async(req,res,next) => {
     if(process.env.NODE_ENV !== 'production'){
         const { password, email } = req.body;
@@ -136,29 +150,39 @@ app.post('/createAdmin', async(req,res,next) => {
         next(err);
     }
 })
+
+// 'GET' request to about page
 app.get('/contact', (req, res) => {
     res.render('contact');
 })
+
+// routes for different users 
 app.use('/doctor', auth, isDoctor, doctorRoutes);
 app.use('/frontdesk', auth, isFrontdesk, frontdeskRoutes);
 app.use('/dataentry', auth, isDataEntry, dataEntryRoutes);
 app.use('/admin', auth, isAdmin, adminRoutes);
+
+// logout route
 app.use('/logout', (req, res) => {
     req.flash('success', 'You have successfully logged out');
     // req.session.destroy();
     req.session.token = null;
     res.redirect('/');
 })
+
+// error handling
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 })
 
+// error rendering
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
     res.status(statusCode).render('error', { err })
 })
 
+// server listening
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
