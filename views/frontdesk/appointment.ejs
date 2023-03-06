@@ -22,13 +22,18 @@
           <input
             type="date"
             id="date"
-            class="form-control mb-3"
+            class="form-control mb-3 appointmentDate"
             name="Date"
             required
           />
         </div>
         <div class="col-3 d-inline-block">
-          <input type="time" class="form-control mb-3" name="time" required />
+          <input
+            type="time"
+            class="form-control mb-3 appointmentTime"
+            name="time"
+            required
+          />
         </div>
         <div class="valid-feedback">Looks good!</div>
       </div>
@@ -54,3 +59,24 @@
     <hr />
   </div>
 </div>
+<script>
+  const treatmentDate = document.querySelector('.appointmentDate');
+  treatmentDate.addEventListener('change', (e) => {
+    const date = new Date(e.target.value);
+    const today = new Date();
+    if (date < today) {
+      alert('Please select a date in the future');
+      e.target.value = '';
+    }
+  });
+  const treatmentTime = document.querySelector('.appointmentTime');
+  console.log(treatmentTime.value);
+  treatmentTime.addEventListener('change', (e) => {
+    const time = e.target.value;
+    const hours = time.split(':')[0];
+    let minutes = time.split(':')[1];
+    minutes = Math.floor(minutes / 15) * 15;
+    console.log(hours, minutes);
+    e.target.value = `${hours}:${minutes}`;
+  });
+</script>

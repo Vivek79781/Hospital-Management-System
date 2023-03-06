@@ -123,7 +123,11 @@ router.get('/patient/:id/emergency', async(req, res) => {
     const { id } = req.params;
     console.log(req.body);
     now = new Date();
-    now.setMinutes(Math.floor(now.getMinutes()/4) * 4);
+    now.setHours(now.getHours() + 5);
+    now.setMinutes(now.getMinutes() + 30);
+    const minutes = Math.floor(now.getMinutes()/15);
+    now.setMinutes(minutes * 15);
+    now.setSeconds(0);
     dateTime = now.toISOString().slice(0, 19).replace('T', ' ');
 
     // Available doctors

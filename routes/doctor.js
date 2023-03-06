@@ -21,16 +21,23 @@ router.get('/', async (req, res) => {
         available = false
     }
     // current date and time
-    const now = new Date();
+    const now = new Date()
+    const minutes = Math.floor(now.getMinutes()/15)
+    console.log(minutes);
+    now.setMinutes(minutes*15)
+    now.setSeconds(0)
+    console.log(now);
     const mysqlDateTime = now.toISOString().slice(0, 19).replace('T', ' ');
-
-    console.log(mysqlDateTime);
+    
+    console.log(now, mysqlDateTime);
     // show all appointments under the doctor which are not more than 30 minutes old than the current time and appointment has a Date attribute which is DateTIme in mysql
     // let dates = await query(`select Date from Appointment where doctorID = ${id} and Date > '${mysqlDateTime}'`);
     // console.log(dates);
-    let appointments = await query(`select * from Appointment where doctorID = ${id}`);
+    let appointments = await query(`select * from Appointment where doctorID = ${id} AND Status = 'Pending'`);
+    console.log(appointments);
     appointments = appointments.filter(appointment => {
-        return appointment.Date > mysqlDateTime;
+        console.log(appointment.Date.toISOString().slice(0, 19).replace('T', ' '), mysqlDateTime);
+        return appointment.Date.toISOString().slice(0, 19).replace('T', ' ') >= mysqlDateTime;
     });
     // sort the appointments by priority in descending order
     appointments.sort((a, b) => {
