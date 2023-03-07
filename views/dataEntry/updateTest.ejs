@@ -1,45 +1,47 @@
 <% layout('layouts/boilerplate')%>
 <h1 class="text-center">Update Test</h1>
-<% for(let test of tests) { %>
-<div class="card w-25">
-  <div class="card-body">
-    <p class="card-text">
-      <strong>Test :</strong><%= test.testName %> <strong> By </strong> <%=
-      test.testCenter %>
-    </p>
+<div class="container-fluid row px-0">
+  <% for(let test of tests) { %>
+  <div class="card col-4 mx-2 my-2 mb-4" style="width: 25rem">
+    <div class="card-body">
+      <p class="card-text">
+        <strong>Test :</strong><%= test.testName %> <strong> By </strong> <%=
+        test.testCenter %>
+      </p>
 
-    <p class="card-text">
-      <strong>Test Date: </strong> <%=
-      test.testDate.toISOString().slice(0,19).replace('T', ' ') %>
-    </p>
-    <p class="card-text">
-      <strong>Test Status: </strong>
-      <% if (test.testStatus == "Pending") { %>
-      <span class="badge bg-warning"><%= test.testStatus %></span>
-      <% } else if (test.testStatus == "Completed") { %>
-      <span class="badge bg-success"><%= test.testStatus %></span>
-      <% } else if (test.testStatus == "On Going") { %>
-      <span class="badge bg-info"><%= test.testStatus %></span>
-      <% } %>
-    </p>
-    <form
-      action="/dataentry/patient/<%= id %>/updateTest/<%= test.testID %>?_method=PUT"
-      method="post"
-    >
-      <div class="form-group mb-0">
-        <label for="testResult">
-          <strong>Test Result:</strong>
-        </label>
-        <input
-          type="text"
-          class="form-control"
-          id="testResult"
-          name="testResult"
-          value=""
-        />
-        <button class="btn btn-primary mt-2">UPDATE</button>
-      </div>
-    </form>
+      <p class="card-text">
+        <strong>Test Date: </strong> <%=
+        test.testDate.toISOString().slice(0,19).replace('T', ' ') %>
+      </p>
+      <p class="card-text">
+        <strong>Test Status: </strong>
+        <% if (test.testStatus == "Pending") { %>
+        <span class="badge bg-warning"><%= test.testStatus %></span>
+        <% } else if (test.testStatus == "Completed") { %>
+        <span class="badge bg-success"><%= test.testStatus %></span>
+        <% } else if (test.testStatus == "On Going") { %>
+        <span class="badge bg-info"><%= test.testStatus %></span>
+        <% } %>
+      </p>
+      <form
+        action="/dataentry/patient/<%= id %>/updateTest/<%= test.testID %>?_method=PUT"
+        method="post"
+      >
+        <div class="form-group mb-0">
+          <label for="testResult">
+            <strong>Test Result:</strong>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="testResult"
+            name="testResult"
+            value=""
+          />
+          <button class="btn btn-primary mt-2">UPDATE</button>
+        </div>
+      </form>
+    </div>
   </div>
+  <% } %>
 </div>
-<% } %>
