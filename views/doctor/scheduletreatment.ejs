@@ -6,6 +6,7 @@
       action="/doctor/patient/<%= id %>/treatment"
       method="post"
       class="validated-form"
+      novalidate
     >
       <div class="form-floating mb-3">
         <input
@@ -19,7 +20,6 @@
       </div>
       <div class="form-floating mb-3">
         <label for="Description">Description</label>
-        <!-- <input type="text" class="form-control" name="Description" required /> -->
         <textarea
           class="form-control"
           name="Description"
@@ -46,6 +46,7 @@
             type="time"
             class="form-control treatment-time"
             name="TreatmentTime"
+            required
           />
         </div>
         <div class="valid-feedback">Looks good!</div>
@@ -55,21 +56,4 @@
     <hr />
   </div>
 </div>
-<script>
-  const treatmentDate = document.querySelector('.treatment-date');
-  treatmentDate.addEventListener('change', (e) => {
-    const date = new Date(e.target.value);
-    const today = new Date();
-    if (date < today) {
-      alert('Please select a date in the future');
-      e.target.value = '';
-    }
-  });
-  const treatmentTime = document.querySelector('.treatment-time');
-  treatmentTime.addEventListener('change', (e) => {
-    const time = e.target.value;
-    const hours = time.split(':')[0];
-    const minutes = '00';
-    e.target.value = `${hours}:${minutes}`;
-  });
-</script>
+<script src="/js/doctor-treatment-date.js"></script>

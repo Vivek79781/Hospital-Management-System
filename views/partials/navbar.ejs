@@ -16,6 +16,7 @@
       <div class="navbar-nav ml-auto">
         <% if(currentUser) {%> <% if (currentUser.role === 'Doctor'){ %>
         <a class="nav-link" href="/doctor">Dashboard</a>
+        <a href="/doctor/patient" class="nav-link">Patients</a>
         <% } %> <% if (currentUser.role === 'FrontDesk'){ %>
         <a class="nav-link" href="/frontdesk">Dashboard</a>
         <a href="/frontdesk/register" class="nav-link">Register</a>

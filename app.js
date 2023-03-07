@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const upload = require('express-fileupload');
+const bree = require('bree');
 const app = express();
 
 const doctorRoutes = require('./routes/doctor');
@@ -27,6 +28,28 @@ const ExpressError = require('./utils/ExpressError');
 const { query } = require('./utils/db')
 const catchAsync = require('./utils/catchAsync');
 
+const breeConfig = {
+    jobs: [
+        {
+            name: 'email',
+            cron: '30 7 * * *',
+            // interval: '5 seconds',
+            worker: {
+                path: './jobs/email.js',
+            }
+        }
+    ]
+}
+
+const breeInstance = new bree(breeConfig);
+try {
+    breeInstance.start();
+} catch (e) {
+    console.log(1);
+
+}
+// breeInstance.start();
+
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
@@ -38,15 +61,15 @@ const sessionConfig = {
     cookie: {
         httpOnly: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 8
+        maxAge: 1000 * 60 * 60
     }
 }
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(methodOverride('_method'));
 app.use(session(sessionConfig));
 app.use(flash());
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(upload());
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;

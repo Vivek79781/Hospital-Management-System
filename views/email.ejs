@@ -1,0 +1,39 @@
+<main class="container my-5" style="min-height: 72.5vh">
+  <% if (appointments.length> 0) { %>
+  <h1 class="text-center">Appointments</h1>
+  <div class="container-fluid row px-0">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Appointment ID</th>
+          <th scope="col">Patient Name</th>
+          <th scope="col">Appointment Time</th>
+          <th scope="col">Priority</th>
+          <th scope="col">Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let appointment of appointments) { %>
+        <tr>
+          <th scope="row"><%= appointment.appointmentID %></th>
+          <td><%= appointment.patientName %></td>
+          <td><%= appointment.Date %></td>
+          <td>
+            <% if(appointment.priority == 1) { %>
+            <span class="badge bg-secondary">Moderate</span>
+            <% } else if(appointment.priority == 2) { %>
+            <span class="badge bg-warning">Severe</span>
+            <% } else if(appointment.priority == 3) { %>
+            <span class="badge bg-danger">Highly Severe</span>
+            <% } %>
+          </td>
+          <td><%= appointment.Reason %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <% } else { %>
+  <h1 class="text-center">No Appointments</h1>
+  <% } %>
+</main>

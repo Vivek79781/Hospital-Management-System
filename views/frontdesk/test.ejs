@@ -6,6 +6,7 @@
       action="/frontdesk/patient/<%= id %>/test"
       method="post"
       class="validated-form"
+      novalidate
     >
       <div class="form-floating mb-3">
         <label for="center">Test Center</label>
@@ -29,54 +30,8 @@
         />
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <!-- <div class="form-floating mb-3">
-        <label for="date">Test Date</label>
-        <div class="col-3 d-inline-block">
-          <input
-            type="date"
-            class="form-control test-date"
-            id="date"
-            name="TestDate"
-            required
-          />
-        </div>
-        <div class="col-3 d-inline-block">
-          <input
-            type="time"
-            class="form-control test-time"
-            name="TestTime"
-            required
-          />
-        </div>
-        <div class="valid-feedback">Looks good!</div>
-      </div> -->
-      <!-- <div class="form-floating mb-3">
-            <label>Test Result</label>
-            <input type="text" class="form-control" name="TestResult" required />
-            <div class="valid-feedback">Looks good!</div>
-          </div> -->
-      <!-- <div class="form-floating mb-3">
-        <label for="TestStatus">Test Status</label>
-        <select name="TestStatus" id="TestStatus" class="form-control">
-          <option value="Pending">Pending</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
-        </select>
-      </div> -->
       <button type="submit" class="btn btn-warning btn-lg">Register</button>
     </form>
     <hr />
   </div>
 </div>
-
-<script>
-  const testDate = document.querySelector('.test-date');
-  testDate.addEventListener('change', (e) => {
-    const date = new Date(e.target.value);
-    const today = new Date();
-    if (date < today) {
-      alert('Please select a date in the future');
-      e.target.value = '';
-    }
-  });
-</script>

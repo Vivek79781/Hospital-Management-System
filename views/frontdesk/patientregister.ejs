@@ -2,7 +2,12 @@
 <div class="container">
   <div class="col-sm-6 col-sm-offset-3 mx-auto">
     <h1><span class="fa fa-sign-in"></span> Patient Registration</h1>
-    <form action="/frontdesk/register" method="post" class="validated-form">
+    <form
+      action="/frontdesk/register"
+      method="post"
+      class="validated-form"
+      novalidate
+    >
       <div class="form-floating mb-3">
         <label for="name">Name</label>
         <input
@@ -48,16 +53,6 @@
         />
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <!-- <div class="form-group">
-        <label>Registration date</label>
-        <input
-          type="date"
-          class="form-control"
-          name="RegistrationDate"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-      </div> -->
       <div class="form-floating mb-3">
         <label for="DOB">Date of birth</label>
         <input
