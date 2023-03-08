@@ -46,9 +46,24 @@ const breeConfig = {
     ]
 }
 
+const weeklybreeConfig = {
+    jobs: [
+        {
+            name: 'weekly',
+            cron: '0 7 * * 0',
+            // interval: '10 seconds',
+            worker: {
+                path: './jobs/weekly.js',
+            }
+        }
+    ]
+}
+
 const breeInstance = new bree(breeConfig);
+const weeklybreeInstance = new bree(weeklybreeConfig);
 try {
     breeInstance.start();
+    weeklybreeInstance.start();
 } catch (e) {
     console.log(1);
 

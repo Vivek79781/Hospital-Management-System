@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { query } = require('../utils/db');
+const nodemailer = require('nodemailer');
+const ejs = require('ejs');
 
 router.get('/', async(req, res) => {
     const patients = await query('select * from Patient')
@@ -121,7 +123,7 @@ router.post('/patient/:id/bookappointment', async(req, res) => {
 
 router.get('/patient/:id/emergency', async(req, res) => {
     const { id } = req.params;
-    console.log(req.body);
+    // console.log(req.body);
     now = new Date();
     now.setHours(now.getHours() + 5);
     now.setMinutes(now.getMinutes() + 30);
@@ -134,7 +136,36 @@ router.get('/patient/:id/emergency', async(req, res) => {
     const doctors = await query(`select * from Doctor where doctorID in (select userID from User where role = 'Doctor') AND doctorID NOT IN (select doctorID from Appointment where Date = '${dateTime}')`)
     if(doctors.length !== 0) {
         await query(`INSERT INTO Appointment (patientID, doctorID, Priority, Date, Reason, Status) VALUES (${id}, ${doctors[0].doctorID}, 3, '${dateTime}', 'Emergency', 'Pending')`)
-        req.flash('success', 'Emergency Appointment has been scheduled');
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'vivekdbz248@gmail.com',
+                pass: 'zltasmuetrabsatu'
+                // pass: 'htqeryxbcgfstpaa'
+            }
+        });
+
+        const doctor = await query(`SELECT * FROM doctor, user WHERE doctor.doctorID = user.userID AND doctor.doctorID = ${doctors[0].doctorID}`);
+
+        const mailOptions = {
+            from: 'vivekdbz248@gmail.com',
+            // to: `${doctor[0].email}`,
+            to: 'vivekdbz248@gmail.com',
+            subject: 'Emergency Appointment',
+            html: `<b>You have an emergency appointment now.</b>`
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+        req.flash('success', `Emergency Appointment has been scheduled to ${doctors[0].Name}`);
+        
         res.redirect('/frontdesk');
     } else {
         req.flash('error', 'Sorry, no doctors are available at this time');

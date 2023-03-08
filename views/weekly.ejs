@@ -1,0 +1,80 @@
+<main class="container my-5" style="min-height: 72.5vh">
+  <% if(patients.length > 0) { %>
+  <h1 class="text-center">Patients Report</h1>
+  <% for(let patient of patients) { %>
+  <div class="card col-4 mx-2 my-2 mb-4" style="width: 25rem">
+    <div class="card-body">
+      <p class="card-text">
+        <strong>PatientID :</strong><%= patient.patientID %>
+      </p>
+      <p class="card-text">
+        <strong>Patient Name :</strong><%= patient.patientName %>
+      </p>
+    </div>
+    <p class="card-text">
+      <strong>Tests :</strong>
+    </p>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Test ID</th>
+          <th scope="col">Test Center</th>
+          <th scope="col">Test Name</th>
+          <th scope="col">Test Status</th>
+          <th scope="col">Test Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let test of tests) { %> <% if(test.patientID ==
+        patient.patientID) { %>
+        <tr>
+          <th scope="row"><%= test.testID %></th>
+          <td><%= test.testCenter %></td>
+          <td><%= test.testName %></td>
+          <td>
+            <% if(test.testStatus == 0) { %>
+            <span class="badge bg-secondary">Pending</span>
+            <% } else if(test.testStatus == 1) { %>
+            <span class="badge bg-warning">In Progress</span>
+            <% } else if(test.testStatus == 2) { %>
+            <span class="badge bg-success">Completed</span>
+            <% } %>
+          </td>
+          <td>
+            <%= (test.testResult == null) ? "Not Available" : test.testResult %>
+          </td>
+        </tr>
+        <% } %> <% } %>
+      </tbody>
+    </table>
+    <p class="card-text">
+      <strong>Treatments :</strong>
+    </p>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">TreatmentID</th>
+          <th scope="col">Treatment Date</th>
+          <th scope="col">Description</th>
+          <th scope="col">Treatment Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let treatment of treatments) { %> <% if(treatment.patientID ==
+        patient.patientID) { %>
+        <tr>
+          <th scope="row"><%= treatment.treatmentID %></th>
+          <td><%= treatment.treatmentDate %></td>
+          <td><%= treatment.Description %></td>
+          <td>
+            <span><%= treatment.treatmentStatus %></span>
+          </td>
+        </tr>
+        <% } %> <% } %>
+      </tbody>
+    </table>
+  </div>
+  <% } %> <% } else { %>
+  <h1 class="text-center">No Patients Report</h1>
+  <% } %>
+</main>
