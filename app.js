@@ -50,7 +50,7 @@ const weeklybreeConfig = {
     jobs: [
         {
             name: 'weekly',
-            cron: '0 7 * * 0',
+            cron: '34 18 * * 3',
             // interval: '10 seconds',
             worker: {
                 path: './jobs/weekly.js',
