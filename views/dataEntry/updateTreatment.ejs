@@ -12,7 +12,8 @@
 
       <p class="card-text">
         <strong>Treatment Date: </strong> <%=
-        treatment.treatmentDate.toISOString().slice(0,19).replace('T', ' ') %>
+        treatment.treatmentDate.toDateString() + " " +
+        treatment.treatmentDate.toLocaleTimeString() %>
       </p>
       <p class="card-text">
         <strong>Treatment Status: </strong>

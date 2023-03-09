@@ -31,8 +31,8 @@ async function sendWeeklyEmail() {
             } else {
                 const mailOptions = {
                     from: 'vivekdbz248@gmail.com',
-                    // to: doctor.email,
-                    to: 'vivekdbz248@gmail.com',
+                    to: doctor.email,
+                    // to: 'vivekdbz248@gmail.com',
                     subject: 'Weekly Report',
                     html: data
                 };

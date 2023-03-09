@@ -16,18 +16,19 @@
       <p class="card-text"><strong>Phone: </strong> <%= patient.Phone %></p>
       <p class="card-text"><strong>Email: </strong> <%= patient.email %></p>
       <p class="card-text">
-        <strong>DOB: </strong> <%= patient.DOB.toISOString().slice(0,
-        19).replace('T', ' ') %>
+        <strong>DOB: </strong> <%= patient.DOB.toDateString() %>
       </p>
       <p class="card-text">
         <strong>Registration date: </strong><%=
-        patient.Registration_Date.toISOString().slice(0, 19).replace('T', ' ')%>
+        patient.Registration_Date.toDateString() + " " +
+        patient.Registration_Date.toLocaleTimeString() %>
       </p>
       <% var stayIndex = stays.findIndex(stay => stay.patientID ==
       patient.patientID) %> <% if(stayIndex != -1){ %>
       <p class="card-text">
-        <strong>Admission date: </strong><%=stays[stayIndex].AdmitDate.
-        toISOString().slice(0, 19).replace('T', ' ')%>
+        <strong>Admission date: </strong
+        ><%=stays[stayIndex].AdmitDate.toDateString() + " " +
+        stays[stayIndex].AdmitDate.toLocaleTimeString()%>
       </p>
       <p class="card-text">
         <strong> Room number: </strong><%= stays[stayIndex].roomNumber%>
@@ -37,8 +38,8 @@
       %>
       <p class="card-text">
         <strong> Treatment date: </strong><%=
-        treatments[treatmentIndex].treatmentDate.toISOString().slice(0,
-        19).replace('T', ' ')%>
+        treatments[treatmentIndex].treatmentDate.toDateString() + " " +
+        treatments[treatmentIndex].treatmentDate.toLocaleTimeString()%>
       </p>
       <p class="card-text">
         <strong> Treatment Description: </strong><%=

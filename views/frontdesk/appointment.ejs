@@ -12,7 +12,9 @@
         <label for="doctor">Doctor</label>
         <select name="doctorID" id="doctor" class="form-control">
           <% for(let doctor of doctors) { %>
-          <option value="<%= doctor.doctorID %>"><%= doctor.Name %></option>
+          <option value="<%= doctor.doctorID %>">
+            <%= doctor.Name %> - <%= doctor.Department %>
+          </option>
           <% } %>
         </select>
         <div class="valid-feedback">Looks good!</div>

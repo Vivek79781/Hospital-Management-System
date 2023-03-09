@@ -27,7 +27,10 @@
       <tr>
         <th scope="row"><%= appointment.appointmentID %></th>
         <td><%= appointment.patientName %></td>
-        <td><%= appointment.Date %></td>
+        <td>
+          <%= appointment.Date.toDateString() + " " +
+          appointment.Date.toLocaleTimeString() %>
+        </td>
         <td>
           <% if(appointment.priority == 1) { %>
           <span class="badge bg-secondary">Moderate</span>
@@ -78,18 +81,19 @@
         </p>
         <p class="card-text">
           <strong>DOB: </strong>
-          <%= patient.DOB.toISOString().slice(0, 19).replace('T', ' ' ) %>
+          <%= patient.DOB.toDateString() %>
         </p>
         <p class="card-text">
           <strong>Registration date: </strong><%=
-          patient.Registration_Date.toISOString().slice(0, 19).replace('T',' ')
-          %>
+          patient.Registration_Date.toDateString() + " " +
+          patient.Registration_Date.toLocaleTimeString() %>
         </p>
         <% var stayIndex=stays.findIndex(stay => stay.patientID ==
         patient.patientID) %> <% if(stayIndex !=-1){ %>
         <p class="card-text">
-          <strong>Admission date: </strong><%=stays[stayIndex].AdmitDate.
-          toISOString().slice(0, 19).replace(' T', ' ' )%>
+          <strong>Admission date: </strong
+          ><%=stays[stayIndex].AdmitDate.toDateString() + " " +
+          stays[stayIndex].AdmitDate.toLocaleTimeString() %>
         </p>
         <p class="card-text">
           <strong> Room number: </strong>

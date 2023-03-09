@@ -130,7 +130,7 @@ SELECT * FROM Doctor;
 
 
 INSERT INTO User (userID, email, role, pass)
-VALUES (1, 'd1@gmail.com', 'Doctor', 'd1');
+VALUES (1, 'admin@gmail.com', 'Admin', 'admin');
 
 INSERT INTO User (userID, email, role, pass)
 VALUES (2, 'd2@gmail.com', 'Doctor', 'd2');
@@ -201,11 +201,11 @@ VALUES (5, 'Metropolis Healthcare', 'Hemoglobin A1c', '2022-03-02 13:00:00', 'Pe
 
 
 INSERT INTO Room (roomNumber, roomType, maxCapacity, currentOccupancy)
-VALUES (101, 'General', 5, 3),
+VALUES (101, 'General', 5, 0),
        (102, 'General', 7, 0),
-       (103, 'Ventilator', 2, 1),
-       (104, 'ICU', 3, 2),
-       (105, 'General', 9, 4),
+       (103, 'Ventilator', 2, 0),
+       (104, 'ICU', 3, 0),
+       (105, 'General', 9, 0),
        (106, 'Ventilator', 2, 0);
 
 

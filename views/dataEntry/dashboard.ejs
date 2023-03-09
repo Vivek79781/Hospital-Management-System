@@ -16,12 +16,12 @@
       <p class="card-text"><strong>Phone: </strong> <%= patient.Phone %></p>
       <p class="card-text"><strong>Email: </strong> <%= patient.email %></p>
       <p class="card-text">
-        <strong>DOB: </strong> <%= patient.DOB.toISOString().slice(0,
-        19).replace('T', ' ') %>
+        <strong>DOB: </strong> <%= patient.DOB.toDateString() %>
       </p>
       <p class="card-text">
         <strong>Registration date: </strong><%=
-        patient.Registration_Date.toISOString().slice(0, 19).replace('T', ' ')%>
+        patient.Registration_Date.toDateString() + " " +
+        patient.Registration_Date.toLocaleTimeString() %>
       </p>
     </div>
     <a

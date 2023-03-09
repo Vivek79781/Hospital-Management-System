@@ -9,8 +9,8 @@
       </p>
 
       <p class="card-text">
-        <strong>Appointment Date: </strong> <%=
-        appointment.Date.toISOString().slice(0,19).replace('T', ' ') %>
+        <strong>Appointment Date: </strong> <%= appointment.Date.toDateString()
+        + " " + appointment.Date.toLocaleTimeString() %>
       </p>
       <p class="card-text">
         <strong>Reason: </strong> <%= appointment.Reason%>

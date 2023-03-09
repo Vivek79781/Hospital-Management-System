@@ -60,8 +60,8 @@ async function sendEmail() {
                 // console.log(data);
                 const mailOptions = {
                     from: 'vivekdbz248@gmail.com',
-                    // to: `${doctor.email}`,
-                    to: 'vivekdbz248@gmail.com',
+                    to: `${doctor.email}`,
+                    // to: 'vivekdbz248@gmail.com',
                     subject: 'Patients List',
                     html: data
                 }
