@@ -26,6 +26,8 @@
       <form
         action="/dataentry/patient/<%= id %>/updateTest/<%= test.testID %>?_method=PUT"
         method="post"
+        class="validated-form"
+        novalidate
       >
         <div class="form-group mb-0">
           <label for="testResult">
@@ -37,6 +39,7 @@
             id="testResult"
             name="testResult"
             value=""
+            required
           />
           <button class="btn btn-primary mt-2">UPDATE</button>
         </div>
