@@ -148,13 +148,25 @@ router.get('/patient/:id/emergency', async(req, res) => {
         });
 
         const doctor = await query(`SELECT * FROM doctor, user WHERE doctor.doctorID = user.userID AND doctor.doctorID = ${doctors[0].doctorID}`);
-
+        const patient = await query(`SELECT * FROM patient WHERE patient.patientID = ${id}`);
         const mailOptions = {
             from: 'vivekdbz248@gmail.com',
             // to: `${doctor[0].email}`,
             to: 'vivekdbz248@gmail.com',
             subject: 'Emergency Appointment',
-            html: `<b>You have an emergency appointment now.</b>`
+            html: `<b>You have an emergency appointment now.
+            </b><div class="card col-4 mx-2 my-2 mb-4" style="width: 25rem">
+                    <div class="card-body">
+                    <p class="card-text">
+                        <strong>PatientID :</strong>${id}
+                    </p>
+                    <p class="card-text">
+                        <strong>Patient Name :</strong> ${patient[0].Name}
+                    </p>
+                    <p class="card-text"><strong>Email :</strong> ${patient[0].email}</p>
+                    <p class="card-text"><strong>Phone :</strong> ${patient[0].Phone}</p>
+                    </div>
+                </div>`
         };
         
         transporter.sendMail(mailOptions, function(error, info){
