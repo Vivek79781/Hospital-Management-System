@@ -65,7 +65,7 @@ try {
     breeInstance.start();
     weeklybreeInstance.start();
 } catch (e) {
-    console.log(1);
+    console.log(e);
 
 }
 // breeInstance.start();
