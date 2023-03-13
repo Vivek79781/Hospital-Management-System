@@ -183,7 +183,7 @@ router.post('/patient/:id/treatment', async(req, res) => {
         res.redirect('/doctor/patient');
     } else {
         req.flash('error', 'Doctor is not available at this time');
-        res.redirect('/doctor/patient/:id/scheduletreatment');
+        res.redirect(`/doctor/patient/${id}/scheduletreatment`);
     }
 
 });
