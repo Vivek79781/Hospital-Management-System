@@ -150,7 +150,8 @@ router.get('/patient/:id/emergency', async(req, res) => {
             secure: true,
             auth: {
                 user: 'vivekdbz248@gmail.com',
-                pass: 'zltasmuetrabsatu'
+                // pass: 'zltasmuetrabsatu'
+                pass: 'qpieytqwtdhpecuu'
                 // pass: 'htqeryxbcgfstpaa'
             }
         });
