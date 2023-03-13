@@ -5,10 +5,9 @@
   <div class="card col-4 mx-2 my-2 mb-4" style="width: 25rem">
     <div class="card-body">
       <p class="card-text">
-        <strong>Test :</strong><%= test.testName %> <strong> By </strong> <%=
-        test.testCenter %>
+        <strong>Test: </strong><%= test.testName %> <strong> 
       </p>
-
+      <p class="card-text">By </strong> <%=test.testCenter %></p>
       <p class="card-text">
         <strong>Test Date: </strong> <%=
         test.testDate.toISOString().slice(0,19).replace('T', ' ') %>
@@ -31,7 +30,7 @@
       >
         <div class="form-group mb-0">
           <label for="testResult">
-            <strong>Test Result:</strong>
+            <strong>Test Result: </strong>
           </label>
           <input
             type="text"
